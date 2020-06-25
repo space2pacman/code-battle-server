@@ -21,7 +21,7 @@ module.exports = {
 					status: "success"
 				}
 
-				console.log(request.body.data);
+				console.log(request.body);
 
 				response.send(answer);
 			}
