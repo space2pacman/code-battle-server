@@ -1,15 +1,30 @@
 module.exports = {
-	home(request, response) {
-		response.send("home page");
-	},
-	task: {
-		getAll(request, response) {
-			response.send("all tasks");
+	get: {
+		home(request, response) {
+			response.send("home page");
 		},
-		getById(request, response) {
-			let id = request.params.id;
+		task: {
+			getAll(request, response) {
+				response.send("all tasks");
+			},
+			getById(request, response) {
+				let id = request.params.id;
 
-			response.send("get by id: " + id);
+				response.send("get by id: " + id);
+			}
+		}
+	},
+	post: {
+		task: {
+			test(request, response) {
+				let answer = {
+					status: "success"
+				}
+
+				console.log(request.body.data);
+
+				response.send(answer);
+			}
 		}
 	}
 }
