@@ -140,10 +140,24 @@ module.exports = {
 					
 						return ${tasks[id].function.name}("${tasks[id].tests[i].input}")
 					`);
-					let result = func();
+					let result;
+
+					try {
+						result = func();
+					} catch(e) {
+						result = e.message;
+					}
 
 					if(result === undefined) {
 						result = "undefined";
+					}
+
+					if(result === null) {
+						result = "null";
+					}
+
+					if(result === Infinity) {
+						result = "Infinity";
 					}
 
 					let test = {
