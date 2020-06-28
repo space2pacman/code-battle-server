@@ -76,6 +76,7 @@ module.exports = {
 			getAll(request, response) {
 				let answer = {
 					status: "success",
+					url: "tasks",
 					data: tasks
 				}
 
@@ -83,8 +84,13 @@ module.exports = {
 			},
 			getById(request, response) {
 				let id = request.params.id;
+				let answer = {
+					status: "success",
+					url: "task",
+					data: tasks[id]
+				}
 
-				response.send("get by id: " + id);
+				response.send(answer);
 			}
 		}
 	},
@@ -92,7 +98,8 @@ module.exports = {
 		task: {
 			test(request, response) {
 				let answer = {
-					status: "success"
+					status: "success",
+					data: null
 				}
 				let code = request.body.code;
 				let id = request.body.id;
@@ -105,13 +112,22 @@ module.exports = {
 						return ${tasks[id].function.name}("${tasks[id].tests[i].input}")
 					`);
 					let result = func();
-					
-					if(result === tasks[id].tests[i].output) {
-						tests.push(true)
+					let test = {
+						expected: tasks[id].tests[i].output,
+						return: result,
+						result: null
 					}
+
+					if(result === tasks[id].tests[i].output) {
+						test.result = true;
+					} else {
+						test.result = false;
+					}
+					
+					tests.push(test)
 				}
 
-				console.log(tests)
+				answer.data = tests;
 
 				response.send(answer);
 			}
