@@ -11,20 +11,20 @@ let tasks = [
 			name: "reverseString",
 			body: "function reverseString(str) { return str.split('').reverse().join('') }"
 		},
-		company: null,
+		company: false,
 		language: "javascript",
 		tests: [
 			{
-				input: "Hello",
-				output: "olleH"
+				input: "olleH",
+				output: "Hello"
 			},
 			{
-				input: "apple",
-				output: "elppa"
+				input: "elppa",
+				output: "apple"
 			},
 			{
-				input: "I love Javascript",
-				output: "tpircsavaJ evol I"
+				input: "tpircsavaJ evol I",
+				output: "I love Javascript"
 			}
 		]
 	},
@@ -40,7 +40,7 @@ let tasks = [
 			name: "fact",
 			body: "function fact(n) { return 120 }"
 		},
-		company: "Google",
+		company: true,
 		language: "php",
 		tests: [
 			{
@@ -62,6 +62,35 @@ let tasks = [
 			{
 				input: 9,
 				output: 362880
+			}
+		]
+	},
+	{
+		id: 2,
+		caption: "CaMeLcAsE",
+		description: "Напишите функцию для перевода строки в CaMeLcAsE нотацию",
+		level: 3,
+		completed: false,
+		solutions: 564,
+		author: "Yandex",
+		function: {
+			name: "getCamelCase",
+			body: "function getCamelCase(n) { }"
+		},
+		company: true,
+		language: "vue",
+		tests: [
+			{
+				input: "Hello world",
+				output: "HeLlO WoRlD"
+			},
+			{
+				input: "Верните мне мой две тысячи седьмой",
+				output: "ВеРнИтЕ МнЕ МоЙ ДвЕ ТыСяЧи СеДьМоЙ"
+			},
+			{
+				input: "Напиши мне в icq",
+				output: "НаПиШи МнЕ В IcQ"
 			}
 		]
 	}
@@ -112,6 +141,11 @@ module.exports = {
 						return ${tasks[id].function.name}("${tasks[id].tests[i].input}")
 					`);
 					let result = func();
+
+					if(result === undefined) {
+						result = "undefined";
+					}
+
 					let test = {
 						expected: tasks[id].tests[i].output,
 						return: result,
