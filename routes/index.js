@@ -106,7 +106,8 @@ module.exports = {
 				let answer = {
 					status: "success",
 					url: "tasks",
-					data: tasks
+					data: tasks,
+					error: null
 				}
 
 				response.send(answer);
@@ -114,9 +115,18 @@ module.exports = {
 			getById(request, response) {
 				let id = request.params.id;
 				let answer = {
-					status: "success",
+					status: null,
 					url: "task",
-					data: tasks[id]
+					data: null,
+					error: null
+				}
+
+				if(tasks[id]) {
+					answer.status = "success"
+					answer.data = tasks[id]
+				} else {
+					answer.status = "error"
+					answer.error = "not found"
 				}
 
 				response.send(answer);
@@ -128,7 +138,8 @@ module.exports = {
 			test(request, response) {
 				let answer = {
 					status: "success",
-					data: null
+					data: null,
+					error: null
 				}
 				let code = request.body.code;
 				let id = request.body.id;
