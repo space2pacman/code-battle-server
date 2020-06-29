@@ -141,6 +141,16 @@ module.exports = {
 						return ${tasks[id].function.name}("${tasks[id].tests[i].input}")
 					`);
 					let result;
+					let test = {
+						expected: tasks[id].tests[i].output,
+						return: null,
+						solved: null,
+						logs: []
+					}
+
+					console.log = data => {
+						test.logs.push(data);
+					}
 
 					try {
 						result = func();
@@ -160,23 +170,17 @@ module.exports = {
 						result = "Infinity";
 					}
 
-					let test = {
-						expected: tasks[id].tests[i].output,
-						return: result,
-						result: null
+					if(result === tasks[id].tests[i].output) {
+						test.solved = true;
+					} else {
+						test.solved = false;
 					}
 
-					if(result === tasks[id].tests[i].output) {
-						test.result = true;
-					} else {
-						test.result = false;
-					}
-					
+					test.return = result;
 					tests.push(test)
 				}
 
 				answer.data = tests;
-
 				response.send(answer);
 			}
 		}
