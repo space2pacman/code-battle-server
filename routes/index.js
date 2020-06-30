@@ -103,7 +103,10 @@ let profiles = [
 		login: "pacman",
 		userpic: "/",
 		tasks: {
-			solved: [0, 1]
+			solved: {
+				id: [0, 1],
+				list: []
+			}
 		},
 		level: 3
 	},
@@ -111,7 +114,10 @@ let profiles = [
 		login: "test",
 		userpic: "/",
 		tasks: {
-			solved: [0, 1]
+			solved: {
+				id: [1],
+				list: []
+			}
 		},
 		level: 2
 	}
@@ -182,6 +188,9 @@ module.exports = {
 				let profile = getByLogin(login);
 
 				if(profile) {
+					profile.tasks.solved.list = profile.tasks.solved.id.map(id => {
+						return tasks[id];
+					});
 					answer.status = "success";
 					answer.data = profile;
 				} else {
