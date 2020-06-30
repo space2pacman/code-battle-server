@@ -1,3 +1,5 @@
+let log = console.log; // fix
+
 let tasks = [
 	{
 		id: 0,
@@ -96,6 +98,25 @@ let tasks = [
 	}
 ];
 
+let profiles = [
+	{
+		login: "pacman",
+		userpic: "/",
+		tasks: {
+			solved: [0, 1]
+		},
+		level: 3
+	},
+	{
+		login: "test",
+		userpic: "/",
+		tasks: {
+			solved: [0, 1]
+		},
+		level: 2
+	}
+]
+
 module.exports = {
 	get: {
 		home(request, response) {
@@ -127,6 +148,45 @@ module.exports = {
 				} else {
 					answer.status = "error"
 					answer.error = "not found"
+				}
+
+				response.send(answer);
+			}
+		},
+		profile: {
+			getByLogin(request, response) {
+				let login = request.params.login;
+				let answer = {
+					status: null,
+					url: "profile",
+					data: null,
+					error: null
+				}
+
+				function getByLogin(login) {
+					let result;
+
+					for(let i = 0; i < profiles.length; i++) {
+						if(profiles[i].login === login) {
+							result = profiles[i];
+
+							break;
+						} else {
+							result = false;
+						}
+					}
+
+					return result;
+				}
+
+				let profile = getByLogin(login);
+
+				if(profile) {
+					answer.status = "success";
+					answer.data = profile;
+				} else {
+					answer.status = "error";
+					answer.error = "not found";
 				}
 
 				response.send(answer);
