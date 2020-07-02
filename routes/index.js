@@ -103,10 +103,7 @@ let profiles = [
 		login: "pacman",
 		userpic: "/",
 		tasks: {
-			solved: {
-				id: [0, 1],
-				list: []
-			}
+			solved: [0, 1]
 		},
 		level: 3
 	},
@@ -114,10 +111,7 @@ let profiles = [
 		login: "test",
 		userpic: "/",
 		tasks: {
-			solved: {
-				id: [1],
-				list: []
-			}
+			solved: [1]
 		},
 		level: 2
 	}
@@ -188,11 +182,50 @@ module.exports = {
 				let profile = getByLogin(login);
 
 				if(profile) {
-					profile.tasks.solved.list = profile.tasks.solved.id.map(id => {
-						return tasks[id];
-					});
 					answer.status = "success";
 					answer.data = profile;
+				} else {
+					answer.status = "error";
+					answer.error = "not found";
+				}
+
+				response.send(answer);
+			},
+			tasks(request, response) {
+				let login = request.params.login;
+				let answer = {
+					status: null,
+					url: "profile/tasks",
+					data: null,
+					error: null
+				}
+
+				function getByLogin(login) {
+					let result;
+
+					for(let i = 0; i < profiles.length; i++) {
+						if(profiles[i].login === login) {
+							result = profiles[i];
+
+							break;
+						} else {
+							result = false;
+						}
+					}
+
+					return result;
+				}
+
+				let profile = getByLogin(login);
+
+				if(profile) {
+					let data = [];
+
+					profile.tasks.solved.forEach(id => {
+						data.push(tasks[id]);
+					});
+					answer.data = data;
+					answer.status = "success";
 				} else {
 					answer.status = "error";
 					answer.error = "not found";
