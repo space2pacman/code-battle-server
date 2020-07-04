@@ -121,8 +121,8 @@ let solutions = [
 	{
 		id: 0,
 		task: 0,
-		username: "space2pacman",
-		code: "function space2pacman() {}",
+		username: "pacman",
+		code: "function pacman() {}",
 		likes: 1,
 		comments: 2
 	},
