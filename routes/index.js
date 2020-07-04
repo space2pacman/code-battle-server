@@ -282,9 +282,11 @@ module.exports = {
 				let answer = {
 					status: null,
 					url: "solution/task",
-					data: [],
+					data: null,
 					error: null
 				}
+
+				answer.data = [];
 
 				for(let i = 0; i < solutions.length; i++) {
 					if(solutions[i].task === Number(id)) {
@@ -295,6 +297,7 @@ module.exports = {
 				if(answer.data.length === 0) {
 					answer.status = "error";
 					answer.error = "not found";
+					answer.data = null;
 				} else {
 					answer.status = "success";
 				}
