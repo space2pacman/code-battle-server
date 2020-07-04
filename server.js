@@ -11,9 +11,12 @@ app.use(cors());
 app.get("/", routes.get.home);
 app.get("/api/tasks/", routes.get.task.getAll);
 app.get("/api/task/:id/", routes.get.task.getById);
-app.post("/api/task/test/", routes.post.task.test)
+app.post("/api/task/test/", routes.post.task.test);
 // profile
-app.get("/api/profile/:login/", routes.get.profile.getByLogin)
-app.get("/api/profile/:login/tasks/", routes.get.profile.tasks)
+app.get("/api/profile/:login/", routes.get.profile.getByLogin);
+app.get("/api/profile/:login/tasks/", routes.get.profile.tasks);
+// solution
+app.get("/api/solution/:id/", routes.get.solution.getById);
+app.get("/api/solution/task/:id/", routes.get.solution.getByTaskId);
 
 app.listen(8080);

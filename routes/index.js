@@ -117,6 +117,25 @@ let profiles = [
 	}
 ]
 
+let solutions = [
+	{
+		id: 0,
+		task: 0,
+		username: "space2pacman",
+		code: "function space2pacman() {}",
+		likes: 1,
+		comments: 2
+	},
+	{
+		id: 1,
+		task: 0,
+		username: "test",
+		code: "function test() {}",
+		likes: 10,
+		comments: 22
+	}
+]
+
 module.exports = {
 	get: {
 		home(request, response) {
@@ -232,6 +251,55 @@ module.exports = {
 				}
 
 				response.send(answer);
+			}
+		},
+		solution: {
+			getById(request, response) {
+				let id = request.params.id;
+				let answer = {
+					status: null,
+					url: "solution",
+					data: null,
+					error: null
+				}
+
+				for(let i = 0; i < solutions.length; i++) {
+					if(solutions[i].id === Number(id)) {
+						answer.data = solutions[i];
+						answer.status = "success";
+
+						break;
+					} else {
+						answer.status = "error";
+						answer.error = "not found";
+					}
+				}
+
+				response.send(answer)
+			},
+			getByTaskId(request, response) {
+				let id = request.params.id;
+				let answer = {
+					status: null,
+					url: "solution/task",
+					data: [],
+					error: null
+				}
+
+				for(let i = 0; i < solutions.length; i++) {
+					if(solutions[i].task === Number(id)) {
+						answer.data.push(solutions[i]);
+					}
+				}
+
+				if(answer.data.length === 0) {
+					answer.status = "error";
+					answer.error = "not found";
+				} else {
+					answer.status = "success";
+				}
+
+				response.send(answer)
 			}
 		}
 	},
