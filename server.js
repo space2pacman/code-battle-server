@@ -2,11 +2,13 @@ let express = require("express");
 let bodyParser = require("body-parser");
 let routes = require("./routes");
 let cors = require("cors");
+let passport = require("passport");
 let app = express();
 
 app.use(bodyParser.urlencoded());
 app.use(bodyParser.json());
 app.use(cors());
+app.use(passport.initialize());
 // task
 app.get("/", routes.get.home);
 app.get("/api/tasks/", routes.get.task.getAll);
@@ -18,5 +20,6 @@ app.get("/api/profile/:login/tasks/", routes.get.profile.tasks);
 // solution
 app.get("/api/solution/:id/", routes.get.solution.getById);
 app.get("/api/solution/task/:id/", routes.get.solution.getByTaskId);
+// login
 
 app.listen(8080);
