@@ -48,6 +48,14 @@ app.post("/api/login/", (request, response) => {
 	response.send({ data: token });
 })
 
+app.post("/api/logout/", (request, response) => {
+	let answer = {
+		status: "success"
+	}
+
+	response.send(answer);
+})
+
 function authenticate(req, res, next) {
 	let urls = {
 		"/api/solution/task/:id/": "solution/task",
