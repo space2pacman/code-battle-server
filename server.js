@@ -21,8 +21,8 @@ app.post("/api/task/test/", authenticate, routes.post.task.test);
 app.get("/api/profile/:login/", routes.get.profile.getByLogin);
 app.get("/api/profile/:login/tasks/", routes.get.profile.tasks);
 // solution
-app.get("/api/solution/:id/", routes.get.solution.getById);
-app.get("/api/solution/task/:id/", routes.get.solution.getByTaskId);
+app.get("/api/solution/:id/", authenticate, routes.get.solution.getById);
+app.get("/api/solution/task/:id/", authenticate, routes.get.solution.getByTaskId);
 // login
 let params = {};
 params.jwtFromRequest = ExtractJwt.fromAuthHeaderAsBearerToken();
@@ -33,6 +33,7 @@ passport.use("jwt", new JwtStrategy(params, (payload, done) => {
 		login: "test",
 		password: "test"
 	}
+
 	done(null, user);
 }))
 
@@ -40,36 +41,36 @@ app.post("/api/login/", (request, response) => {
 	let login = request.body.login;
 	let password = request.body.password;
 	let user = {
-		login,
-		password
+		login
 	}
 	let token = jwt.sign(user, '7x0jhxt"9(thpX6');
 
-	response.send({ token });
+	response.send({ data: token });
 })
 
 function authenticate(req, res, next) {
-  passport.authenticate('jwt', function(err, user, info) {
-  	console.log(info)
-    if (err) {
-    	return next(err);
-    }
+	let urls = {
+		"/api/solution/task/:id/": "solution/task",
+		"/api/solution/:id/": "solution",
+		"/api/task/test/": "task/test"
+	}
 
-    if (!user) {
-    	let answer = {
-			status: "error",
-			error: "unauthorized"
+	passport.authenticate('jwt', function(err, user, info) {
+		if (err) {
+			return next(err);
+		}
+		if (!user) {
+			let answer = {
+				status: "error",
+				error: "unauthorized",
+				url: urls[req.route.path]
+			}
+
+			return res.send(401, answer);
 		}
 
-    	return res.send(401, answer);
-    }
-
-    next();	
-  })(req, res, next);
+		next();	
+	})(req, res, next);
 }
-
-app.post('/api/test/', authenticate, (req, res) => {
-	res.send({ "ok": "ok" })
-});
 
 app.listen(8080);
