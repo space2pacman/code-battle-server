@@ -99,9 +99,10 @@ let tasks = [
 	}
 ];
 
-let profiles = [
+let users = [
 	{
 		login: "pacman",
+		password: "test",
 		userpic: "/",
 		tasks: {
 			solved: [0, 1]
@@ -110,9 +111,19 @@ let profiles = [
 	},
 	{
 		login: "test",
+		password: "test",
 		userpic: "/",
 		tasks: {
 			solved: [1]
+		},
+		level: 2
+	},
+	{
+		login: "kek",
+		password: "kek",
+		userpic: "/",
+		tasks: {
+			solved: []
 		},
 		level: 2
 	}
@@ -134,13 +145,6 @@ let solutions = [
 		code: "function test() {}",
 		likes: 10,
 		comments: 22
-	}
-]
-
-let users = [
-	{
-		login: "pacman",
-		password: "test"
 	}
 ]
 
@@ -174,7 +178,7 @@ module.exports = {
 					answer.data = tasks[id]
 				} else {
 					answer.status = "error"
-					answer.error = "not found"
+					answer.error = "task not found"
 				}
 
 				response.send(answer);
@@ -193,15 +197,17 @@ module.exports = {
 				function getByLogin(login) {
 					let result;
 
-					for(let i = 0; i < profiles.length; i++) {
-						if(profiles[i].login === login) {
-							result = profiles[i];
+					for(let i = 0; i < users.length; i++) {
+						if(users[i].login === login) {
+							result = JSON.parse(JSON.stringify(users[i]));
 
 							break;
 						} else {
 							result = false;
 						}
 					}
+
+					delete result.password;
 
 					return result;
 				}
@@ -213,7 +219,7 @@ module.exports = {
 					answer.data = profile;
 				} else {
 					answer.status = "error";
-					answer.error = "not found";
+					answer.error = "user not found";
 				}
 
 				response.send(answer);
@@ -230,9 +236,9 @@ module.exports = {
 				function getByLogin(login) {
 					let result;
 
-					for(let i = 0; i < profiles.length; i++) {
-						if(profiles[i].login === login) {
-							result = profiles[i];
+					for(let i = 0; i < users.length; i++) {
+						if(users[i].login === login) {
+							result = JSON.parse(JSON.stringify(users[i]));
 
 							break;
 						} else {
@@ -240,12 +246,14 @@ module.exports = {
 						}
 					}
 
+					delete result.password;
+
 					return result;
 				}
 
 				let profile = getByLogin(login);
 
-				if(profile) {
+				if(profile && profile.tasks.solved.length > 0) {
 					let data = [];
 
 					profile.tasks.solved.forEach(id => {
@@ -255,7 +263,7 @@ module.exports = {
 					answer.status = "success";
 				} else {
 					answer.status = "error";
-					answer.error = "not found";
+					answer.error = "tasks not found";
 				}
 
 				response.send(answer);
@@ -279,7 +287,7 @@ module.exports = {
 						break;
 					} else {
 						answer.status = "error";
-						answer.error = "not found";
+						answer.error = "solution not found";
 					}
 				}
 
@@ -304,7 +312,7 @@ module.exports = {
 
 				if(answer.data.length === 0) {
 					answer.status = "error";
-					answer.error = "not found";
+					answer.error = "solution not found";
 					answer.data = null;
 				} else {
 					answer.status = "success";
