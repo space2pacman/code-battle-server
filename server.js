@@ -38,6 +38,7 @@ passport.use("jwt", new JwtStrategy(params, (payload, done) => {
 
 app.post("/api/login/", routes.post.login);
 app.post("/api/logout/", routes.post.logout);
+app.post("/api/registration/", routes.post.registration);
 
 function authenticate(req, res, next) {
 	let urls = {

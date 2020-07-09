@@ -437,6 +437,13 @@ module.exports = {
 			}
 
 			response.send(answer);
+		},
+		registration(request, response) {
+			let answer = {
+				status: "success"
+			}
+
+			response.send(answer);
 		}
 	}
 }
