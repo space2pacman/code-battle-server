@@ -1,103 +1,6 @@
+let tasks = require("../models/Tasks");
 let jwt = require("jsonwebtoken");
 let log = console.log; // fix
-
-let tasks = [
-	{
-		id: 0,
-		caption: "Перевернуть строку",
-		description: "Напишите функцию по развороту строки",
-		level: 1,
-		completed: false,
-		solutions: 8023,
-		author: "space2pacman",
-		function: {
-			name: "reverseString",
-			body: "function reverseString(str) { return str.split('').reverse().join('') }"
-		},
-		company: false,
-		language: "javascript",
-		tests: [
-			{
-				input: "olleH",
-				output: "Hello"
-			},
-			{
-				input: "elppa",
-				output: "apple"
-			},
-			{
-				input: "tpircsavaJ evol I",
-				output: "I love Javascript"
-			}
-		]
-	},
-	{
-		id: 1,
-		caption: "Факториал",
-		description: "Напишите функцию по подсчету факториалаи",
-		level: 2,
-		completed: true,
-		solutions: 564,
-		author: "Google",
-		function: {
-			name: "fact",
-			body: "function fact(n) { return 120 }"
-		},
-		company: true,
-		language: "php",
-		tests: [
-			{
-				input: 5,
-				output: 120
-			},
-			{
-				input: 6,
-				output: 720
-			},
-			{
-				input: 7,
-				output: 5040
-			},
-			{
-				input: 8,
-				output: 40320
-			},
-			{
-				input: 9,
-				output: 362880
-			}
-		]
-	},
-	{
-		id: 2,
-		caption: "CaMeLcAsE",
-		description: "Напишите функцию для перевода строки в CaMeLcAsE нотацию",
-		level: 3,
-		completed: false,
-		solutions: 564,
-		author: "Yandex",
-		function: {
-			name: "getCamelCase",
-			body: "function getCamelCase(n) { }"
-		},
-		company: true,
-		language: "vue",
-		tests: [
-			{
-				input: "Hello world",
-				output: "HeLlO WoRlD"
-			},
-			{
-				input: "Верните мне мой две тысячи седьмой",
-				output: "ВеРнИтЕ МнЕ МоЙ ДвЕ ТыСяЧи СеДьМоЙ"
-			},
-			{
-				input: "Напиши мне в icq",
-				output: "НаПиШи МнЕ В IcQ"
-			}
-		]
-	}
-];
 
 let users = [
 	{
@@ -158,7 +61,7 @@ module.exports = {
 				let answer = {
 					status: "success",
 					url: "tasks",
-					data: tasks,
+					data: tasks.getAll(),
 					error: null
 				}
 
@@ -172,13 +75,14 @@ module.exports = {
 					data: null,
 					error: null
 				}
+				let task = tasks.getById(id);
 
-				if(tasks[id]) {
-					answer.status = "success"
-					answer.data = tasks[id]
+				if(task) {
+					answer.status = "success";
+					answer.data = task;
 				} else {
-					answer.status = "error"
-					answer.error = "task not found"
+					answer.status = "error";
+					answer.error = "task not found";
 				}
 
 				response.send(answer);
@@ -257,7 +161,7 @@ module.exports = {
 					let data = [];
 
 					profile.tasks.solved.forEach(id => {
-						data.push(tasks[id]);
+						data.push(tasks.getById(id));
 					});
 					answer.data = data;
 					answer.status = "success";
@@ -333,16 +237,17 @@ module.exports = {
 				let code = request.body.code;
 				let id = request.body.id;
 				let tests = [];
+				let task = tasks.getById(id);
 
-				for(let i = 0; i < tasks[id].tests.length; i++) {
+				for(let i = 0; i < task.tests.length; i++) {
 					let func = new Function(`
 						${code}
 					
-						return ${tasks[id].function.name}("${tasks[id].tests[i].input}")
+						return ${task.function.name}("${task.tests[i].input}")
 					`);
 					let result;
 					let test = {
-						expected: tasks[id].tests[i].output,
+						expected: task.tests[i].output,
 						return: null,
 						solved: null,
 						logs: []
@@ -370,7 +275,7 @@ module.exports = {
 						result = "Infinity";
 					}
 
-					if(result === tasks[id].tests[i].output) {
+					if(result === task.tests[i].output) {
 						test.solved = true;
 					} else {
 						test.solved = false;
