@@ -5,7 +5,6 @@ let cors = require("cors");
 let passport = require("passport");
 let JwtStrategy = require("passport-jwt").Strategy;
 let ExtractJwt = require("passport-jwt").ExtractJwt;
-let jwt = require("jsonwebtoken");
 let app = express();
 
 app.use(bodyParser.urlencoded());
@@ -37,24 +36,8 @@ passport.use("jwt", new JwtStrategy(params, (payload, done) => {
 	done(null, user);
 }))
 
-app.post("/api/login/", (request, response) => {
-	let login = request.body.login;
-	let password = request.body.password;
-	let user = {
-		login
-	}
-	let token = jwt.sign(user, '7x0jhxt"9(thpX6');
-
-	response.send({ data: token });
-})
-
-app.post("/api/logout/", (request, response) => {
-	let answer = {
-		status: "success"
-	}
-
-	response.send(answer);
-})
+app.post("/api/login/", routes.post.login);
+app.post("/api/logout/", routes.post.logout);
 
 function authenticate(req, res, next) {
 	let urls = {

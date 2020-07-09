@@ -1,3 +1,4 @@
+let jwt = require("jsonwebtoken");
 let log = console.log; // fix
 
 let tasks = [
@@ -133,6 +134,13 @@ let solutions = [
 		code: "function test() {}",
 		likes: 10,
 		comments: 22
+	}
+]
+
+let users = [
+	{
+		login: "pacman",
+		password: "test"
 	}
 ]
 
@@ -367,6 +375,60 @@ module.exports = {
 				answer.data = tests;
 				response.send(answer);
 			}
+		},
+		login(request, response) {
+			let login = request.body.login;
+			let password = request.body.password;
+
+			function find(login, password) {
+				let result = false;
+
+				for(let i = 0; i < users.length ; i++) {
+					let user = users[i];
+
+					if(user.login === login) {
+						if(user.password != password) {
+							result = "wrong password";
+						} else {
+							result = {}
+							result.login = user.login;
+						}
+
+						break;
+					}
+				}
+
+				if(result === false) {
+					result = "user not found";
+				}
+
+				return result;
+			}
+
+			let result = find(login, password);
+			let answer = {
+				status: "success",
+				data: null,
+				error: null
+			}
+
+			if(typeof result !== "string") {
+				let token = jwt.sign(result, '7x0jhxt"9(thpX6');
+
+				answer.data = token;
+				response.send(answer);
+			} else {
+				answer.status = "error";
+				answer.error = result;
+				response.send(404, answer);
+			}
+		},
+		logout(request, response) {
+			let answer = {
+				status: "success"
+			}
+
+			response.send(answer);
 		}
 	}
 }
