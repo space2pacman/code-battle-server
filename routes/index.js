@@ -1,37 +1,8 @@
 let tasks = require("../models/Tasks");
 let solutions = require("../models/Solutions");
+let users = require("../models/Users");
 let jwt = require("jsonwebtoken");
 let log = console.log; // fix
-
-let users = [
-	{
-		login: "pacman",
-		password: "test",
-		userpic: "/",
-		tasks: {
-			solved: [0, 1]
-		},
-		level: 3
-	},
-	{
-		login: "test",
-		password: "test",
-		userpic: "/",
-		tasks: {
-			solved: [1]
-		},
-		level: 2
-	},
-	{
-		login: "kek",
-		password: "kek",
-		userpic: "/",
-		tasks: {
-			solved: []
-		},
-		level: 2
-	}
-]
 
 module.exports = {
 	get: {
@@ -79,26 +50,7 @@ module.exports = {
 					data: null,
 					error: null
 				}
-
-				function getByLogin(login) {
-					let result;
-
-					for(let i = 0; i < users.length; i++) {
-						if(users[i].login === login) {
-							result = JSON.parse(JSON.stringify(users[i]));
-
-							break;
-						} else {
-							result = false;
-						}
-					}
-
-					delete result.password;
-
-					return result;
-				}
-
-				let profile = getByLogin(login);
+				let profile = users.getByLogin(login);
 
 				if(profile) {
 					answer.status = "success";
@@ -118,31 +70,12 @@ module.exports = {
 					data: null,
 					error: null
 				}
+				let user = users.getByLogin(login);
 
-				function getByLogin(login) {
-					let result;
-
-					for(let i = 0; i < users.length; i++) {
-						if(users[i].login === login) {
-							result = JSON.parse(JSON.stringify(users[i]));
-
-							break;
-						} else {
-							result = false;
-						}
-					}
-
-					delete result.password;
-
-					return result;
-				}
-
-				let profile = getByLogin(login);
-
-				if(profile && profile.tasks.solved.length > 0) {
+				if(user && user.tasks.solved.length > 0) {
 					let data = [];
 
-					profile.tasks.solved.forEach(id => {
+					user.tasks.solved.forEach(id => {
 						data.push(tasks.getById(id));
 					});
 					answer.data = data;
@@ -267,47 +200,21 @@ module.exports = {
 		login(request, response) {
 			let login = request.body.login;
 			let password = request.body.password;
-
-			function find(login, password) {
-				let result = false;
-
-				for(let i = 0; i < users.length ; i++) {
-					let user = users[i];
-
-					if(user.login === login) {
-						if(user.password != password) {
-							result = "wrong password";
-						} else {
-							result = {}
-							result.login = user.login;
-						}
-
-						break;
-					}
-				}
-
-				if(result === false) {
-					result = "user not found";
-				}
-
-				return result;
-			}
-
-			let result = find(login, password);
+			let user = users.find(login, password);
 			let answer = {
 				status: "success",
 				data: null,
 				error: null
 			}
 
-			if(typeof result !== "string") {
-				let token = jwt.sign(result, '7x0jhxt"9(thpX6');
+			if(typeof user !== "string") {
+				let token = jwt.sign(user, '7x0jhxt"9(thpX6');
 
 				answer.data = token;
 				response.send(answer);
 			} else {
 				answer.status = "error";
-				answer.error = result;
+				answer.error = user;
 				response.send(404, answer);
 			}
 		},

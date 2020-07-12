@@ -1,0 +1,80 @@
+let users = [
+	{
+		login: "pacman",
+		password: "test",
+		userpic: "/",
+		tasks: {
+			solved: [0, 1]
+		},
+		level: 3
+	},
+	{
+		login: "test",
+		password: "test",
+		userpic: "/",
+		tasks: {
+			solved: [1]
+		},
+		level: 2
+	},
+	{
+		login: "kek",
+		password: "kek",
+		userpic: "/",
+		tasks: {
+			solved: []
+		},
+		level: 2
+	}
+]
+
+class Users {
+	constructor() {
+		this._users = users;
+	}
+
+	getByLogin(login) {
+		let user;
+
+		for(let i = 0; i < this._users.length; i++) {
+			if(this._users[i].login === login) {
+				user = JSON.parse(JSON.stringify(this._users[i]));
+
+				break;
+			} else {
+				user = false;
+			}
+		}
+
+		delete user.password;
+
+		return user;
+	}
+
+	find(login, password) {
+		let result = false;
+
+		for(let i = 0; i < users.length ; i++) {
+			let user = users[i];
+
+			if(user.login === login) {
+				if(user.password != password) {
+					result = "wrong password";
+				} else {
+					result = {}
+					result.login = user.login;
+				}
+
+				break;
+			}
+		}
+
+		if(result === false) {
+			result = "user not found";
+		}
+
+		return result;
+	}
+}
+
+module.exports = new Users();
