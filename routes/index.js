@@ -1,4 +1,5 @@
 let tasks = require("../models/Tasks");
+let solutions = require("../models/Solutions");
 let jwt = require("jsonwebtoken");
 let log = console.log; // fix
 
@@ -29,25 +30,6 @@ let users = [
 			solved: []
 		},
 		level: 2
-	}
-]
-
-let solutions = [
-	{
-		id: 0,
-		task: 0,
-		username: "pacman",
-		code: "function pacman() {}",
-		likes: 1,
-		comments: 2
-	},
-	{
-		id: 1,
-		task: 0,
-		username: "test",
-		code: "function test() {}",
-		likes: 10,
-		comments: 22
 	}
 ]
 
@@ -183,16 +165,14 @@ module.exports = {
 					error: null
 				}
 
-				for(let i = 0; i < solutions.length; i++) {
-					if(solutions[i].id === Number(id)) {
-						answer.data = solutions[i];
-						answer.status = "success";
+				let solution = solutions.getById(id);
 
-						break;
-					} else {
-						answer.status = "error";
-						answer.error = "solution not found";
-					}
+				if(solution) {
+					answer.data = solution;
+					answer.status = "success";
+				} else {
+					answer.status = "error";
+					answer.error = "solution not found";
 				}
 
 				response.send(answer)
@@ -206,20 +186,15 @@ module.exports = {
 					error: null
 				}
 
-				answer.data = [];
+				let data = solutions.getByTaskId(id);
 
-				for(let i = 0; i < solutions.length; i++) {
-					if(solutions[i].task === Number(id)) {
-						answer.data.push(solutions[i]);
-					}
-				}
-
-				if(answer.data.length === 0) {
+				if(data.length === 0) {
 					answer.status = "error";
 					answer.error = "solution not found";
 					answer.data = null;
 				} else {
 					answer.status = "success";
+					answer.data = data;
 				}
 
 				response.send(answer)
