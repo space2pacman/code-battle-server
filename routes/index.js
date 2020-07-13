@@ -210,7 +210,10 @@ module.exports = {
 			if(typeof user !== "string") {
 				let token = jwt.sign(user, '7x0jhxt"9(thpX6');
 
-				answer.data = token;
+				answer.data = {
+					user,
+					token 
+				};
 				response.send(answer);
 			} else {
 				answer.status = "error";
