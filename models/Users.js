@@ -3,6 +3,7 @@ let users = [
 		login: "pacman",
 		password: "test",
 		userpic: "/",
+		accessLevel: 0,
 		tasks: {
 			solved: [0, 1]
 		},
@@ -12,6 +13,7 @@ let users = [
 		login: "test",
 		password: "test",
 		userpic: "/",
+		accessLevel: 0,
 		tasks: {
 			solved: [1]
 		},
@@ -21,6 +23,7 @@ let users = [
 		login: "kek",
 		password: "kek",
 		userpic: "/",
+		accessLevel: 100,
 		tasks: {
 			solved: []
 		},
