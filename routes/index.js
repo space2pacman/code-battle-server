@@ -41,20 +41,20 @@ module.exports = {
 				response.send(answer);
 			}
 		},
-		profile: {
+		user: {
 			getByLogin(request, response) {
 				let login = request.params.login;
 				let answer = {
 					status: null,
-					url: "profile",
+					url: "user",
 					data: null,
 					error: null
 				}
-				let profile = users.getByLogin(login);
+				let user = users.getByLogin(login);
 
-				if(profile) {
+				if(user) {
 					answer.status = "success";
-					answer.data = profile;
+					answer.data = user;
 				} else {
 					answer.status = "error";
 					answer.error = "user not found";
@@ -66,7 +66,7 @@ module.exports = {
 				let login = request.params.login;
 				let answer = {
 					status: null,
-					url: "profile/tasks",
+					url: "user/tasks",
 					data: null,
 					error: null
 				}

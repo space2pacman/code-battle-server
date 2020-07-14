@@ -16,9 +16,9 @@ app.get("/", routes.get.home);
 app.get("/api/tasks/", routes.get.task.getAll);
 app.get("/api/task/:id/", routes.get.task.getById);
 app.post("/api/task/test/", authenticate, routes.post.task.test);
-// profile
-app.get("/api/profile/:login/", routes.get.profile.getByLogin);
-app.get("/api/profile/:login/tasks/", routes.get.profile.tasks);
+// user
+app.get("/api/user/:login/", routes.get.user.getByLogin);
+app.get("/api/user/:login/tasks/", routes.get.user.tasks);
 // solution
 app.get("/api/solution/:id/", authenticate, routes.get.solution.getById);
 app.get("/api/solution/task/:id/", authenticate, routes.get.solution.getByTaskId);

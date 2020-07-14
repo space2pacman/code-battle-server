@@ -57,15 +57,16 @@ class Users {
 	find(login, password) {
 		let result = false;
 
-		for(let i = 0; i < users.length ; i++) {
-			let user = users[i];
+		for(let i = 0; i < this._users.length ; i++) {
+			let user = JSON.parse(JSON.stringify(this._users[i]));
 
 			if(user.login === login) {
 				if(user.password != password) {
 					result = "wrong password";
 				} else {
-					result = {}
-					result.login = user.login;
+					delete user.password;
+
+					result = user;
 				}
 
 				break;
