@@ -7,7 +7,7 @@ let tasks = [
 		completed: false,
 		solutions: 8023,
 		author: "space2pacman",
-		function: {
+		func: {
 			name: "reverseString",
 			body: "function reverseString(str) { return str.split('').reverse().join('') }"
 		},
