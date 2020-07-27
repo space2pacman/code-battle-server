@@ -151,11 +151,11 @@ module.exports = {
 					let func = new Function(`
 						${code}
 					
-						return ${task.function.name}("${task.tests[i].input}")
+						return ${task.func.name}("${task.tests[i].input.value}")
 					`);
 					let result;
 					let test = {
-						expected: task.tests[i].output,
+						expected: task.tests[i].output.value,
 						return: null,
 						solved: null,
 						logs: []
@@ -183,7 +183,7 @@ module.exports = {
 						result = "Infinity";
 					}
 
-					if(result === task.tests[i].output) {
+					if(result === task.tests[i].output.value) {
 						test.solved = true;
 					} else {
 						test.solved = false;
