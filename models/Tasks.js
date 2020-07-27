@@ -15,16 +15,34 @@ let tasks = [
 		language: "javascript",
 		tests: [
 			{
-				input: "olleH",
-				output: "Hello"
+				input: {
+					value: "olleH",
+					type: "String"
+				},
+				output: {
+					value: "Hello",
+					type: "String"
+				}
 			},
 			{
-				input: "elppa",
-				output: "apple"
+				input: {
+					value: "elppa",
+					type: "String"
+				},
+				output: {
+					value: "apple",
+					type: "String"
+				}
 			},
 			{
-				input: "tpircsavaJ evol I",
-				output: "I love Javascript"
+				input: {
+					value: "tpircsavaJ evol I",
+					type: "String"
+				},
+				output: {
+					value: "I love Javascript",
+					type: "String"
+				}
 			}
 		]
 	},
@@ -44,24 +62,54 @@ let tasks = [
 		language: "php",
 		tests: [
 			{
-				input: 5,
-				output: 120
+				input: {
+					value: 5,
+					type: "Number"
+				},
+				output: {
+					value: 120,
+					type: "Number"
+				}
 			},
 			{
-				input: 6,
-				output: 720
+				input: {
+					value: 6,
+					type: "Number"
+				},
+				output: {
+					value: 720,
+					type: "Number"
+				}
 			},
 			{
-				input: 7,
-				output: 5040
+				input: {
+					value: 7,
+					type: "Number"
+				},
+				output: {
+					value: 5040,
+					type: "Number"
+				}
 			},
 			{
-				input: 8,
-				output: 40320
+				input: {
+					value: 8,
+					type: "Number"
+				},
+				output: {
+					value: 40320,
+					type: "Number"
+				}
 			},
 			{
-				input: 9,
-				output: 362880
+				input: {
+					value: 9,
+					type: "Number"
+				},
+				output: {
+					value: 362880,
+					type: "Number"
+				}
 			}
 		]
 	},
@@ -81,16 +129,34 @@ let tasks = [
 		language: "vue",
 		tests: [
 			{
-				input: "Hello world",
-				output: "HeLlO WoRlD"
+				input: {
+					value: "Hello world",
+					type: "String"
+				},
+				output: {
+					value: "HeLlO WoRlD",
+					type: "String"
+				}
 			},
 			{
-				input: "Верните мне мой две тысячи седьмой",
-				output: "ВеРнИтЕ МнЕ МоЙ ДвЕ ТыСяЧи СеДьМоЙ"
+				input: {
+					value: "Верните мне мой две тысячи седьмой",
+					type: "String"
+				},
+				output: {
+					value: "ВеРнИтЕ МнЕ МоЙ ДвЕ ТыСяЧи СеДьМоЙ",
+					type: "String"
+				}
 			},
 			{
-				input: "Напиши мне в icq",
-				output: "НаПиШи МнЕ В IcQ"
+				input: {
+					value: "Напиши мне в icq",
+					type: "String"
+				},
+				output: {
+					value: "НаПиШи МнЕ В IcQ",
+					type: "String"
+				}
 			}
 		]
 	}
