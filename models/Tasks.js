@@ -54,7 +54,7 @@ let tasks = [
 		completed: true,
 		solutions: 564,
 		author: "Google",
-		function: {
+		func: {
 			name: "fact",
 			body: "function fact(n) { return 120 }"
 		},
@@ -121,7 +121,7 @@ let tasks = [
 		completed: false,
 		solutions: 564,
 		author: "Yandex",
-		function: {
+		func: {
 			name: "getCamelCase",
 			body: "function getCamelCase(n) { }"
 		},

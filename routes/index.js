@@ -2,6 +2,8 @@ let tasks = require("../models/Tasks");
 let solutions = require("../models/Solutions");
 let users = require("../models/Users");
 let jwt = require("jsonwebtoken");
+let kindof = require("kind-of");
+let capitalize = require("capitalize");
 let log = console.log; // fix
 
 module.exports = {
@@ -153,10 +155,15 @@ module.exports = {
 					
 						return ${task.func.name}("${task.tests[i].input.value}")
 					`);
-					let result;
 					let test = {
-						expected: task.tests[i].output.value,
-						return: null,
+						expected: {
+							value: task.tests[i].output.value,
+							type: task.tests[i].output.type
+						},
+						return: {
+							value: null,
+							type: null
+						},
 						solved: null,
 						logs: []
 					}
@@ -166,30 +173,30 @@ module.exports = {
 					}
 
 					try {
-						result = func();
+						test.return.value = func();
+						test.return.type = capitalize.words(kindof(test.return.value));
 					} catch(e) {
-						result = e.message;
+						test.return.value = e.message;
 					}
 
-					if(result === undefined) {
-						result = "undefined";
+					if(test.return.value === undefined) {
+						test.return.value = "undefined";
 					}
 
-					if(result === null) {
-						result = "null";
+					if(test.return.value === null) {
+						test.return.value = "null";
 					}
 
-					if(result === Infinity) {
-						result = "Infinity";
+					if(test.return.value === Infinity) {
+						test.return.value = "Infinity";
 					}
 
-					if(result === task.tests[i].output.value) {
+					if(test.return.value === task.tests[i].output.value) {
 						test.solved = true;
 					} else {
 						test.solved = false;
 					}
 
-					test.return = result;
 					tests.push(test)
 				}
 
