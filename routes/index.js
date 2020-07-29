@@ -202,6 +202,70 @@ module.exports = {
 
 				answer.data = tests;
 				response.send(answer);
+			},
+			check(request, response) { // fix double
+				let answer = {
+					status: "success",
+					data: null,
+					error: null
+				}
+				let data = request.body.data;
+				let tests = [];
+
+				for(let i = 0; i < data.tests.length; i++) {
+					let func = new Function(`
+						${data.func.body}
+
+						return ${data.func.name}("${data.tests[i].input.value}")
+					`);
+
+					let test = {
+						expected: {
+							value: data.tests[i].output.value,
+							type: data.tests[i].output.type
+						},
+						return: {
+							value: null,
+							type: null
+						},
+						solved: null,
+						logs: []
+					}
+
+					console.log = data => {
+						test.logs.push(data);
+					}
+
+					try {
+						test.return.value = func();
+						test.return.type = capitalize.words(kindof(test.return.value));
+					} catch(e) {
+						test.return.value = e.message;
+					}
+
+					if(test.return.value === undefined) {
+						test.return.value = "undefined";
+					}
+
+					if(test.return.value === null) {
+						test.return.value = "null";
+					}
+
+					if(test.return.value === Infinity) {
+						test.return.value = "Infinity";
+					}
+
+					if(test.return.value === data.tests[i].output.value) {
+						test.solved = true;
+					} else {
+						test.solved = false;
+					}
+
+					tests.push(test)
+				}
+
+				answer.data = tests;
+				response.send(answer);
 			}
 		},
 		login(request, response) {
