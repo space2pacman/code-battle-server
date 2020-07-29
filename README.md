@@ -3,21 +3,21 @@
 ## API
 
 ### auth
-/login/
-/logout/
-/registration/
+/login/  
+/logout/  
+/registration/  
 
 ### task
-/tasks/
-/task/{id}/
-/task/test/
-/task/check/ ~
-/task/add/ ~
+/tasks/  
+/task/{id}/  
+/task/test/  
+/task/check/ ~  
+/task/add/ ~  
 
 ### user
-/user/{login}/
-/user/{login}/tasks/
+/user/{login}/  
+/user/{login}/tasks/  
 
 ### solution
-/solution/{id}/
-/solution/task/{id}/
+/solution/{id}/  
+/solution/task/{id}/  
