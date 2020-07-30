@@ -64,30 +64,53 @@ module.exports = {
 
 				response.send(answer);
 			},
-			tasks(request, response) {
-				let login = request.params.login;
-				let answer = {
-					status: null,
-					url: "user/tasks",
-					data: null,
-					error: null
+			tasks: {
+				solved(request, response) {
+					let login = request.params.login;
+					let answer = {
+						status: null,
+						url: "user/tasks/solved",
+						data: null,
+						error: null
+					}
+					let user = users.getByLogin(login);
+
+					if(user && user.tasks.solved.length > 0) {
+						let data = [];
+
+						user.tasks.solved.forEach(id => {
+							data.push(tasks.getById(id));
+						});
+						answer.data = data;
+						answer.status = "success";
+					} else {
+						answer.status = "error";
+						answer.error = "tasks not found";
+					}
+
+					response.send(answer);
+				},
+				added(request, response) {
+					let login = request.params.login;
+					let answer = {
+						status: null,
+						url: "user/tasks/added",
+						data: null,
+						error: null
+					}
+					let user = users.getByLogin(login);
+					let data = tasks.getByAuthor(user.login);
+
+					if(user && data.length > 0) {
+						answer.data = data;
+						answer.status = "success";
+					} else {
+						answer.status = "error";
+						answer.error = "tasks not found";
+					}
+
+					response.send(answer);
 				}
-				let user = users.getByLogin(login);
-
-				if(user && user.tasks.solved.length > 0) {
-					let data = [];
-
-					user.tasks.solved.forEach(id => {
-						data.push(tasks.getById(id));
-					});
-					answer.data = data;
-					answer.status = "success";
-				} else {
-					answer.status = "error";
-					answer.error = "tasks not found";
-				}
-
-				response.send(answer);
 			}
 		},
 		solution: {

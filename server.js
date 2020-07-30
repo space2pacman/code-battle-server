@@ -20,7 +20,8 @@ app.post("/api/task/check/", authenticate, routes.post.task.check);
 app.post("/api/task/add/", authenticate, routes.post.task.add);
 // user
 app.get("/api/user/:login/", routes.get.user.getByLogin);
-app.get("/api/user/:login/tasks/", routes.get.user.tasks);
+app.get("/api/user/:login/tasks/solved/", routes.get.user.tasks.solved);
+app.get("/api/user/:login/tasks/added/", routes.get.user.tasks.added);
 // solution
 app.get("/api/solution/:id/", authenticate, routes.get.solution.getById);
 app.get("/api/solution/task/:id/", authenticate, routes.get.solution.getByTaskId);

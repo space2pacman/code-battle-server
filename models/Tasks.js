@@ -6,7 +6,7 @@ let tasks = [
 		level: 1,
 		completed: false,
 		solutions: 8023,
-		author: "space2pacman",
+		author: "kek",
 		func: {
 			name: "reverseString",
 			body: "function reverseString(str) { return str.split('').reverse().join('') }"
@@ -184,6 +184,18 @@ class Tasks {
 		}
 
 		return task;
+	}
+
+	getByAuthor(author) {
+		let tasks = [];
+
+		for(let i = 0; i < this._tasks.length; i++) {
+			if(this._tasks[i].author === author) {
+				tasks.push(this._tasks[i]);
+			}
+		}
+
+		return tasks;
 	}
 
 	add(task) {
