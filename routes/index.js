@@ -201,7 +201,7 @@ module.exports = {
 						test.solved = false;
 					}
 
-					tests.push(test)
+					tests.push(test);
 				}
 
 				answer.data = tests;
@@ -269,10 +269,21 @@ module.exports = {
 						test.solved = false;
 					}
 
-					tests.push(test)
+					tests.push(test);
 				}
 
 				answer.data = tests;
+				response.send(answer);
+			},
+			add(request, response) {
+				let answer = {
+					status: "success",
+					data: null,
+					error: null
+				}
+				let task = request.body.data.task;
+				
+				tasks.add(task);
 				response.send(answer);
 			}
 		},

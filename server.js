@@ -17,6 +17,7 @@ app.get("/api/tasks/", routes.get.task.getAll);
 app.get("/api/task/:id/", routes.get.task.getById);
 app.post("/api/task/test/", authenticate, routes.post.task.test);
 app.post("/api/task/check/", authenticate, routes.post.task.check);
+app.post("/api/task/add/", authenticate, routes.post.task.add);
 // user
 app.get("/api/user/:login/", routes.get.user.getByLogin);
 app.get("/api/user/:login/tasks/", routes.get.user.tasks);

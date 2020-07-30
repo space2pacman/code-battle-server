@@ -11,8 +11,8 @@
 /tasks/  
 /task/{id}/  
 /task/test/  
-/task/check/ ~  
-/task/add/ ~  
+/task/check/  
+/task/add/  
 
 ### user
 /user/{login}/  

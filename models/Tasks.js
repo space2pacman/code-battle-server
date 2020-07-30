@@ -184,6 +184,12 @@ class Tasks {
 
 		return task;
 	}
+
+	add(task) {
+		task.id = 3; // fix, get last id
+
+		this._tasks.push(task);
+	}
 }
 
 module.exports = new Tasks();
