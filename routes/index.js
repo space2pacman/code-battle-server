@@ -281,8 +281,13 @@ module.exports = {
 					data: null,
 					error: null
 				}
-				let task = request.body.data.task;
-				
+				let fields = request.body.data.fields;
+				let func = request.body.data.func;
+				let author = request.body.data.author;
+				let task = fields;
+
+				task.func.body = func;
+				task.author = author;
 				tasks.add(task);
 				response.send(answer);
 			}
