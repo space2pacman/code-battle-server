@@ -191,6 +191,10 @@ module.exports = {
 						test.return.value = "Infinity";
 					}
 
+					if(kindof(test.return.value) === "function") {
+						test.return.value = test.return.value.toString();
+					}
+
 					if(test.return.value === task.tests[i].output.value) {
 						test.solved = true;
 					} else {
@@ -253,6 +257,10 @@ module.exports = {
 
 					if(test.return.value === Infinity) {
 						test.return.value = "Infinity";
+					}
+
+					if(kindof(test.return.value) === "function") {
+						test.return.value = test.return.value.toString();
 					}
 
 					if(test.return.value === data.tests[i].output.value) {
