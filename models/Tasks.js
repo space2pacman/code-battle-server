@@ -165,6 +165,7 @@ let tasks = [
 class Tasks {
 	constructor() {
 		this._tasks = tasks;
+		this._lastId = 3;
 	}
 
 	getAll() {
@@ -186,8 +187,9 @@ class Tasks {
 	}
 
 	add(task) {
-		task.id = 3; // fix, get last id
+		task.id = this._lastId;
 
+		this._lastId++;
 		this._tasks.push(task);
 	}
 }
