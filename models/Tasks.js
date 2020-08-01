@@ -204,6 +204,12 @@ class Tasks {
 		this._lastId++;
 		this._tasks.push(task);
 	}
+
+	edit(id, data) {
+		let task = this.getById(id);
+
+		Object.assign(task, data);
+	}
 }
 
 module.exports = new Tasks();

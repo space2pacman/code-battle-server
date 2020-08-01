@@ -313,6 +313,23 @@ module.exports = {
 				task.author = author;
 				tasks.add(task);
 				response.send(answer);
+			},
+			edit(request, response) {
+				let answer = {
+					status: "success",
+					data: null,
+					error: null
+				}
+				let id = request.body.data.id;
+				let fields = request.body.data.fields;
+				let func = request.body.data.func;
+				let author = request.body.data.author;
+				let task = fields;
+
+				task.func.body = func;
+				task.author = author;
+				tasks.edit(id, task);
+				response.send(answer);
 			}
 		},
 		login(request, response) {

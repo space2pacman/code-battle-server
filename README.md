@@ -10,6 +10,7 @@
 ### task
 /tasks/  
 /task/{id}/  
+/task/{id}/edit/  
 /task/test/  
 /task/check/  
 /task/add/  
