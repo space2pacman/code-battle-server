@@ -79,6 +79,14 @@ class Users {
 
 		return result;
 	}
+
+	update(user) {
+		for(let i = 0; i < this._users.length ; i++) {
+			if(this._users[i].login === user.login) {
+				this._users[i] = user;
+			}
+		}
+	}
 }
 
 module.exports = new Users();

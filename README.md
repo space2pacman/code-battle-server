@@ -14,6 +14,7 @@
 /task/test/  
 /task/check/  
 /task/add/  
+/task/submit/  
 
 ### user
 /user/{login}/  

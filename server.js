@@ -19,6 +19,7 @@ app.post("/api/task/test/", authenticate, routes.post.task.test);
 app.post("/api/task/check/", authenticate, routes.post.task.check);
 app.post("/api/task/add/", authenticate, routes.post.task.add);
 app.post("/api/task/edit/", authenticate, routes.post.task.edit);
+app.post("/api/task/submit/", authenticate, routes.post.task.submit);
 // user
 app.get("/api/user/:login/", routes.get.user.getByLogin);
 app.get("/api/user/:login/tasks/solved/", routes.get.user.tasks.solved);

@@ -20,6 +20,7 @@ let solutions = [
 class Solutions {
 	constructor() {
 		this._solutions = solutions;
+		this._lastId = 2;
 	}
 
 	getById(id) {
@@ -46,6 +47,20 @@ class Solutions {
 		}
 
 		return solutions;
+	}
+	
+	add(code, author, taskId) {
+		let solution = {
+			id: this._lastId,
+			task: taskId,
+			username: author,
+			code: code,
+			likes: 0,
+			comments: 0
+		}
+
+		this._lastId++;
+		this._solutions.push(solution);
 	}
 }
 

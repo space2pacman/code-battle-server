@@ -330,6 +330,22 @@ module.exports = {
 				task.author = author;
 				tasks.edit(id, task);
 				response.send(answer);
+			},
+			submit(request, response) {
+				let answer = {
+					status: "success",
+					data: null,
+					error: null
+				}
+				let taskId = request.body.data.taskId;
+				let code = request.body.data.code;
+				let author = request.body.data.author;
+				let user = users.getByLogin(author);
+
+				solutions.add(code, author, taskId);
+				user.tasks.solved.push(taskId);
+				users.update(user);
+				response.send(answer);
 			}
 		},
 		login(request, response) {

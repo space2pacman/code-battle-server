@@ -4,7 +4,6 @@ let tasks = [
 		caption: "Перевернуть строку",
 		description: "Напишите функцию по развороту строки",
 		level: 1,
-		completed: false,
 		solutions: 8023,
 		author: "kek",
 		func: {
@@ -51,7 +50,6 @@ let tasks = [
 		caption: "Факториал",
 		description: "Напишите функцию по подсчету факториалаи",
 		level: 2,
-		completed: true,
 		solutions: 564,
 		author: "Google",
 		func: {
@@ -118,7 +116,6 @@ let tasks = [
 		caption: "CaMeLcAsE",
 		description: "Напишите функцию для перевода строки в CaMeLcAsE нотацию",
 		level: 3,
-		completed: false,
 		solutions: 564,
 		author: "Yandex",
 		func: {
