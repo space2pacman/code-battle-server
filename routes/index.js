@@ -189,9 +189,9 @@ module.exports = {
 						logs: []
 					}
 
-					// console.log = data => {
-					// 	test.logs.push(data);
-					// }
+					console.log = data => {
+						test.logs.push(data);
+					}
 
 					try {
 						test.return.value = func();
@@ -257,9 +257,9 @@ module.exports = {
 						logs: []
 					}
 
-					// console.log = data => {
-					// 	test.logs.push(data);
-					// }
+					console.log = data => {
+						test.logs.push(data);
+					}
 
 					try {
 						test.return.value = func();
