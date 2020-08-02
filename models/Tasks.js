@@ -4,7 +4,6 @@ let tasks = [
 		caption: "Перевернуть строку",
 		description: "Напишите функцию по развороту строки",
 		level: 1,
-		solutions: 8023,
 		author: "kek",
 		func: {
 			name: "reverseString",
@@ -50,7 +49,6 @@ let tasks = [
 		caption: "Факториал",
 		description: "Напишите функцию по подсчету факториалаи",
 		level: 2,
-		solutions: 564,
 		author: "Google",
 		func: {
 			name: "fact",
@@ -116,7 +114,6 @@ let tasks = [
 		caption: "CaMeLcAsE",
 		description: "Напишите функцию для перевода строки в CaMeLcAsE нотацию",
 		level: 3,
-		solutions: 564,
 		author: "Yandex",
 		func: {
 			name: "getCamelCase",
@@ -158,6 +155,7 @@ let tasks = [
 		]
 	}
 ];
+let solutions = require("../models/Solutions");
 
 class Tasks {
 	constructor() {
@@ -166,6 +164,11 @@ class Tasks {
 	}
 
 	getAll() {
+		// fill tasks solutions
+		this._tasks.forEach(task => {
+			task.solutions = solutions.getCountByTaskId(task.id);
+		})
+
 		return this._tasks;
 	}
 

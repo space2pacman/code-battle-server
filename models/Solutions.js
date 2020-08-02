@@ -48,6 +48,10 @@ class Solutions {
 
 		return solutions;
 	}
+
+	getCountByTaskId(id) {
+		return this.getByTaskId(id).length;
+	}
 	
 	add(code, author, taskId) {
 		let solution = {
