@@ -63,8 +63,6 @@ class Users {
 			if(user.login === login) {
 				if(user.password != password) {
 					result = "wrong password";
-					console.log(user)
-					console.log(users)
 				} else {
 					delete user.password;
 
