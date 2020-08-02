@@ -3,7 +3,7 @@ let bodyParser = require("body-parser");
 let routes = require("./routes");
 let cors = require("cors");
 let authenticate = require("./middleware/authenticate");
-let solution = require("./middleware/solution");
+let checkSolution = require("./middleware/checkSolution");
 let app = express();
 
 app.use(bodyParser.urlencoded());
@@ -23,8 +23,8 @@ app.get("/api/user/:login/", routes.get.user.getByLogin);
 app.get("/api/user/:login/tasks/solved/", routes.get.user.tasks.solved);
 app.get("/api/user/:login/tasks/added/", routes.get.user.tasks.added);
 // solution
-app.get("/api/solution/:id/", authenticate, routes.get.solution.getById);
-app.get("/api/solution/task/:id/", [authenticate, solution], routes.get.solution.getByTaskId);
+app.get("/api/solution/:id/", [authenticate, checkSolution], routes.get.solution.getById);
+app.get("/api/solution/task/:id/", [authenticate, checkSolution], routes.get.solution.getByTaskId);
 // login
 app.post("/api/login/", routes.post.login);
 app.post("/api/logout/", routes.post.logout);

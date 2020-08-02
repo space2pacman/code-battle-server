@@ -5,7 +5,7 @@ let solutions = [
 		username: "pacman",
 		code: "function pacman() {}",
 		likes: 1,
-		comments: 2
+		comments: 0
 	},
 	{
 		id: 1,
@@ -13,7 +13,7 @@ let solutions = [
 		username: "test",
 		code: "function test() {}",
 		likes: 10,
-		comments: 22
+		comments: 0
 	}
 ]
 
