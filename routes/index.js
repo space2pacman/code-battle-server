@@ -122,7 +122,6 @@ module.exports = {
 					data: null,
 					error: null
 				}
-
 				let solution = solutions.getById(id);
 
 				if(solution) {
@@ -143,7 +142,6 @@ module.exports = {
 					data: null,
 					error: null
 				}
-
 				let data = solutions.getByTaskId(id);
 
 				if(data.length === 0) {
@@ -191,9 +189,9 @@ module.exports = {
 						logs: []
 					}
 
-					console.log = data => {
-						test.logs.push(data);
-					}
+					// console.log = data => {
+					// 	test.logs.push(data);
+					// }
 
 					try {
 						test.return.value = func();
@@ -259,9 +257,9 @@ module.exports = {
 						logs: []
 					}
 
-					console.log = data => {
-						test.logs.push(data);
-					}
+					// console.log = data => {
+					// 	test.logs.push(data);
+					// }
 
 					try {
 						test.return.value = func();

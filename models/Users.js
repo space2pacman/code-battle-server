@@ -63,6 +63,8 @@ class Users {
 			if(user.login === login) {
 				if(user.password != password) {
 					result = "wrong password";
+					console.log(user)
+					console.log(users)
 				} else {
 					delete user.password;
 
@@ -83,7 +85,7 @@ class Users {
 	update(user) {
 		for(let i = 0; i < this._users.length ; i++) {
 			if(this._users[i].login === user.login) {
-				this._users[i] = user;
+				Object.assign(this._users[i], user);
 			}
 		}
 	}
