@@ -15,7 +15,7 @@ let users = [
 		userpic: "/",
 		accessLevel: 0,
 		tasks: {
-			solved: [1]
+			solved: []
 		},
 		level: 2
 	},
