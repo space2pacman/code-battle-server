@@ -52,19 +52,31 @@ class Solutions {
 	getCountByTaskId(id) {
 		return this.getByTaskId(id).length;
 	}
+
+	find(username, taskId) {
+		return this._solutions.filter(item => item.username === username && item.task === taskId);
+	}
 	
 	add(code, author, taskId) {
-		let solution = {
-			id: this._lastId,
-			task: taskId,
-			username: author,
-			code: code,
-			likes: 0,
-			comments: 0
-		}
+		let solutions = this.find(author, taskId);
 
-		this._lastId++;
-		this._solutions.push(solution);
+		if(solutions.length === 0) {
+			let solution = {
+				id: this._lastId,
+				task: taskId,
+				username: author,
+				code: code,
+				likes: 0,
+				comments: 0
+			}
+
+			this._lastId++;
+			this._solutions.push(solution);
+		} else {
+			let solution = solutions[0];
+
+			solution.code = code; 
+		}
 	}
 }
 

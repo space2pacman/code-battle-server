@@ -322,12 +322,19 @@ module.exports = {
 				let fields = request.body.data.fields;
 				let func = request.body.data.func;
 				let author = request.body.data.author;
-				let task = fields;
+				let task = tasks.getById(id);
 
-				task.func.body = func;
-				task.author = author;
-				tasks.edit(id, task);
-				response.send(answer);
+				if(task.author === author) {
+					fields.func.body = func;
+					fields.author = author;
+					tasks.edit(id, fields);
+					response.send(answer);
+				} else {
+					answer.status = "error";
+					answer.error = "no edit access";
+					response.send(403, answer);
+				}
+				
 			},
 			submit(request, response) {
 				let answer = {
