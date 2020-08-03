@@ -54,29 +54,21 @@ class Solutions {
 	}
 
 	find(username, taskId) {
-		return this._solutions.filter(item => item.username === username && item.task === taskId);
+		return this._solutions.filter(item => item.username === username && item.task === taskId)[0];
 	}
 	
 	add(code, author, taskId) {
-		let solutions = this.find(author, taskId);
-
-		if(solutions.length === 0) {
-			let solution = {
-				id: this._lastId,
-				task: taskId,
-				username: author,
-				code: code,
-				likes: 0,
-				comments: 0
-			}
-
-			this._lastId++;
-			this._solutions.push(solution);
-		} else {
-			let solution = solutions[0];
-
-			solution.code = code; 
+		let solution = {
+			id: this._lastId,
+			task: taskId,
+			username: author,
+			code: code,
+			likes: 0,
+			comments: 0
 		}
+
+		this._lastId++;
+		this._solutions.push(solution);
 	}
 }
 

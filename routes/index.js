@@ -346,10 +346,16 @@ module.exports = {
 				let code = request.body.data.code;
 				let author = request.body.data.author;
 				let user = users.getByLogin(author);
+				let solution = solutions.find(author, taskId);
 
-				solutions.add(code, author, taskId);
-				user.tasks.solved.push(taskId);
-				users.update(user);
+				if(solution) {
+					solution.code = code;
+				} else {
+					solutions.add(code, author, taskId);
+					user.tasks.solved.push(taskId);
+					users.update(user);
+				}
+
 				response.send(answer);
 			}
 		},
