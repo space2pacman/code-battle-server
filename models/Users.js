@@ -2,32 +2,56 @@ let users = [
 	{
 		login: "pacman",
 		password: "test",
+		email: {
+			address: "pacman@gmail.com",
+			notification: true
+		},
 		userpic: "/",
+		socialNetworks: [
+			{
+				name: "github",
+				icon: "fab fa-github",
+				link: "http://github.com/space2pacman"
+			}
+		],
+		country: "США",
 		accessLevel: 0,
 		tasks: {
 			solved: [0, 1]
 		},
-		level: 3
+		level: "middle"
 	},
 	{
 		login: "test",
 		password: "test",
+		email: {
+			address: "test@gmail.com",
+			notification: false
+		},
 		userpic: "/",
+		socialNetworks: [],
+		country: "Россия",
 		accessLevel: 0,
 		tasks: {
 			solved: []
 		},
-		level: 2
+		level: "junior"
 	},
 	{
 		login: "kek",
 		password: "kek",
+		email: {
+			address: "kek@gmail.com",
+			notification: false
+		},
 		userpic: "/",
+		socialNetworks: [],
+		country: "Россия",
 		accessLevel: 100,
 		tasks: {
 			solved: []
 		},
-		level: 2
+		level: "senior"
 	}
 ]
 
