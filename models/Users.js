@@ -40,7 +40,7 @@ let users = [
 		country: "Россия",
 		accessLevel: 0,
 		tasks: {
-			solved: []
+			solved: [0]
 		},
 		level: "junior",
 		points: 0
@@ -63,7 +63,7 @@ let users = [
 		country: "Россия",
 		accessLevel: 100,
 		tasks: {
-			solved: []
+			solved: [0]
 		},
 		level: "senior",
 		points: 0
