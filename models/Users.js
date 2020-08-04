@@ -19,7 +19,8 @@ let users = [
 		tasks: {
 			solved: [0, 1]
 		},
-		level: "middle"
+		level: "middle",
+		points: 0
 	},
 	{
 		login: "test",
@@ -29,13 +30,20 @@ let users = [
 			notification: false
 		},
 		userpic: "/",
-		socialNetworks: [],
+		socialNetworks: [
+			{
+				name: "github",
+				icon: "fab fa-github",
+				link: ""
+			}
+		],
 		country: "Россия",
 		accessLevel: 0,
 		tasks: {
 			solved: []
 		},
-		level: "junior"
+		level: "junior",
+		points: 0
 	},
 	{
 		login: "kek",
@@ -45,13 +53,20 @@ let users = [
 			notification: false
 		},
 		userpic: "/",
-		socialNetworks: [],
+		socialNetworks: [
+			{
+				name: "github",
+				icon: "fab fa-github",
+				link: ""
+			}
+		],
 		country: "Россия",
 		accessLevel: 100,
 		tasks: {
 			solved: []
 		},
-		level: "senior"
+		level: "senior",
+		points: 0
 	}
 ]
 
