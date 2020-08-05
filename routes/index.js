@@ -435,14 +435,14 @@ module.exports = {
 				case "userpic": {
 					let mimetypes = ["image/jpeg", "image/png"];
 
-					if(file.size > MAX_USERPIC_SIZE) {
-						answer.status = "error";
-						answer.error = "max image size 50kb";
-
-						return response.send(500, answer);
-					}
-
 					if(mimetypes.includes(file.mimetype)) {
+						if(file.size > MAX_USERPIC_SIZE) {
+							answer.status = "error";
+							answer.error = "max image size 50kb";
+
+							return response.send(500, answer);
+						}
+						
 						let path =  `public/images/users/${file.name}`;
 						let link = `http://localhost:8080/${path}`; // fix
 
