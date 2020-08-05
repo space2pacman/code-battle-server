@@ -23,3 +23,6 @@
 ### solution
 /solution/{id}/  
 /solution/task/{id}/  
+
+### upload
+/upload/  

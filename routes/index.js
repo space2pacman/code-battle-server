@@ -416,6 +416,20 @@ module.exports = {
 			}
 
 			response.send(answer);
+		},
+		upload(request, response) {
+			let answer = {
+				status: "success",
+				data: null
+			}
+			let type = Object.keys(request.files)[0];
+			let file = request.files[type];
+
+			answer.data = {
+				type,
+				file
+			};
+			response.send(answer);
 		}
 	}
 }

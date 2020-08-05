@@ -2,6 +2,7 @@ let express = require("express");
 let bodyParser = require("body-parser");
 let routes = require("./routes");
 let cors = require("cors");
+let fileUpload = require("express-fileupload");
 let authenticate = require("./middleware/authenticate");
 let checkSolution = require("./middleware/checkSolution");
 let app = express();
@@ -9,6 +10,7 @@ let app = express();
 app.use(bodyParser.urlencoded());
 app.use(bodyParser.json());
 app.use(cors());
+app.use(fileUpload());
 // task
 app.get("/", routes.get.home);
 app.get("/api/tasks/", routes.get.task.getAll);
@@ -30,5 +32,7 @@ app.get("/api/solution/task/:id/", [authenticate, checkSolution], routes.get.sol
 app.post("/api/login/", routes.post.login);
 app.post("/api/logout/", routes.post.logout);
 app.post("/api/registration/", routes.post.registration);
+// upload
+app.post("/api/upload/", routes.post.upload);
 
 app.listen(8080);
