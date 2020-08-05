@@ -353,7 +353,7 @@ module.exports = {
 				} else {
 					solutions.add(code, author, taskId);
 					user.tasks.solved.push(taskId);
-					users.update(user);
+					users.update(author, user);
 				}
 
 				response.send(answer);
@@ -366,14 +366,16 @@ module.exports = {
 					data: null,
 					error: null
 				}
+				let username = request.body.data.username;
+
 				let data = {
-					login: request.body.data.username,
+					login: username,
 					email: request.body.data.email,
 					country: request.body.data.country,
 					level: request.body.data.level
 				}
 
-				users.update(data);
+				users.update(username, data);
 				response.send(answer);
 			}
 		},

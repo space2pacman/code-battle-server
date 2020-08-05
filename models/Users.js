@@ -119,9 +119,9 @@ class Users {
 		return result;
 	}
 
-	update(user) {
+	update(username, user) {
 		for(let i = 0; i < this._users.length ; i++) {
-			if(this._users[i].login === user.login) {
+			if(this._users[i].login === username) {
 				Object.assign(this._users[i], user);
 			}
 		}
