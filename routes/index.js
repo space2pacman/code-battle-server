@@ -423,11 +423,20 @@ module.exports = {
 				data: null
 			}
 			let type = Object.keys(request.files)[0];
+			let username = response.locals.user.login;
 			let file = request.files[type];
+
+			// switch(type) {
+			// 	case "userpic":
+			// 		users.update()
+
+			// 		break;
+			// }
 
 			answer.data = {
 				type,
-				file
+				file,
+				username
 			};
 			response.send(answer);
 		}

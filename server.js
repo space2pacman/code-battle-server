@@ -33,6 +33,6 @@ app.post("/api/login/", routes.post.login);
 app.post("/api/logout/", routes.post.logout);
 app.post("/api/registration/", routes.post.registration);
 // upload
-app.post("/api/upload/", routes.post.upload);
+app.post("/api/upload/", authenticate, routes.post.upload);
 
 app.listen(8080);
