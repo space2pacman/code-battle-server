@@ -433,7 +433,7 @@ module.exports = {
 
 			switch(type) {
 				case "userpic": {
-					let mimetypes = ["image/jpeg"];
+					let mimetypes = ["image/jpeg", "image/png"];
 
 					if(file.size > MAX_USERPIC_SIZE) {
 						answer.status = "error";

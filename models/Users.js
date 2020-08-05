@@ -6,7 +6,7 @@ let users = [
 			address: "pacman@gmail.com",
 			notification: true
 		},
-		userpic: "/",
+		userpic: "http://localhost:8080/public/images/users/default.png",
 		socialNetworks: [
 			{
 				name: "github",
@@ -29,7 +29,7 @@ let users = [
 			address: "test@gmail.com",
 			notification: false
 		},
-		userpic: "/",
+		userpic: "http://localhost:8080/public/images/users/default.png",
 		socialNetworks: [
 			{
 				name: "github",
@@ -52,7 +52,7 @@ let users = [
 			address: "kek@gmail.com",
 			notification: false
 		},
-		userpic: "/",
+		userpic: "http://localhost:8080/public/images/users/default.png",
 		socialNetworks: [
 			{
 				name: "github",
