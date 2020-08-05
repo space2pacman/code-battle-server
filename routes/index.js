@@ -359,6 +359,24 @@ module.exports = {
 				response.send(answer);
 			}
 		},
+		user: {
+			update(request, response) {
+				let answer = {
+					status: "success",
+					data: null,
+					error: null
+				}
+				let data = {
+					login: request.body.data.username,
+					email: request.body.data.email,
+					country: request.body.data.country,
+					level: request.body.data.level
+				}
+
+				users.update(data);
+				response.send(answer);
+			}
+		},
 		login(request, response) {
 			let login = request.body.login;
 			let password = request.body.password;

@@ -22,6 +22,7 @@ app.post("/api/task/submit/", authenticate, routes.post.task.submit);
 app.get("/api/user/:login/", routes.get.user.getByLogin);
 app.get("/api/user/:login/tasks/solved/", routes.get.user.tasks.solved);
 app.get("/api/user/:login/tasks/added/", routes.get.user.tasks.added);
+app.post("/api/user/:login/", routes.post.user.update);
 // solution
 app.get("/api/solution/:id/", [authenticate, checkSolution], routes.get.solution.getById);
 app.get("/api/solution/task/:id/", [authenticate, checkSolution], routes.get.solution.getByTaskId);
