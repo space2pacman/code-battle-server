@@ -418,27 +418,54 @@ module.exports = {
 			response.send(answer);
 		},
 		upload(request, response) {
+			if (!request.files || Object.keys(request.files).length === 0) {
+    			return response.send(400, "no files were uploaded");
+  			}
+
 			let answer = {
 				status: "success",
-				data: null
+				data: null,
+				error: null
 			}
 			let type = Object.keys(request.files)[0];
-			let username = response.locals.user.login;
 			let file = request.files[type];
+			let MAX_USERPIC_SIZE = 50000;
 
-			// switch(type) {
-			// 	case "userpic":
-			// 		users.update()
+			switch(type) {
+				case "userpic": {
+					let mimetypes = ["image/jpeg"];
 
-			// 		break;
-			// }
+					if(file.size > MAX_USERPIC_SIZE) {
+						answer.status = "error";
+						answer.error = "max image size 50kb";
 
-			answer.data = {
-				type,
-				file,
-				username
-			};
-			response.send(answer);
+						return response.send(500, answer);
+					}
+
+					if(mimetypes.includes(file.mimetype)) {
+						let path =  `public/images/users/${file.name}`;
+						let link = `http://localhost:8080/${path}`; // fix
+
+						file.mv(path, error => {
+							if(error) {
+								return response.send(500, error);
+							} else {
+								answer.data = {
+									link
+								};
+
+								response.send(answer);
+							}
+						});
+					} else {
+						answer.status = "error";
+						answer.error = "unsupported file type";
+						response.send(500, answer);
+					}
+
+					break;
+				}
+			}
 		}
 	}
 }
