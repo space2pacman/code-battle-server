@@ -27,9 +27,9 @@ app.get("/api/user/:login/tasks/solved/", routes.get.user.tasks.solved);
 app.get("/api/user/:login/tasks/added/", routes.get.user.tasks.added);
 app.post("/api/user/:login/", routes.post.user.update);
 // solution
+app.get("/api/solution/liked/", authenticate, routes.get.solution.getByLiked);
 app.get("/api/solution/:id/", [authenticate, checkSolution], routes.get.solution.getById);
 app.get("/api/solution/task/:id/", [authenticate, checkSolution], routes.get.solution.getByTaskId);
-app.get("/api/solution/liked/:login/", authenticate, routes.get.solution.getByLiked);
 app.post("/api/solution/like/", authenticate, routes.post.solution.like);
 // login
 app.post("/api/login/", routes.post.login);
