@@ -21,7 +21,9 @@ let users = [
 		},
 		level: "middle",
 		points: 0,
-		likes: []
+		likes: {
+			solutions: []
+		}
 	},
 	{
 		login: "test",
@@ -45,7 +47,9 @@ let users = [
 		},
 		level: "junior",
 		points: 0,
-		likes: []
+		likes: {
+			solutions: []
+		}
 	},
 	{
 		login: "kek",
@@ -69,7 +73,9 @@ let users = [
 		},
 		level: "senior",
 		points: 0,
-		likes: []
+		likes: {
+			solutions: []
+		}
 	}
 ]
 

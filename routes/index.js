@@ -163,14 +163,14 @@ module.exports = {
 				}
 				let user = users.getByLogin(response.locals.user.login);
 				let id = request.body.data.id;
-				let index = user.likes.indexOf(id);
+				let index = user.likes.solutions.indexOf(id);
 				let solution = solutions.getById(id);
 
 				if(index === -1) {
-					user.likes.push(id);
+					user.likes.solutions.push(id);
 					solution.likes++;
 				} else {
-					user.likes.splice(index, 1);
+					user.likes.solutions.splice(index, 1);
 					solution.likes--;
 				}
 
