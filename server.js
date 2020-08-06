@@ -29,6 +29,7 @@ app.post("/api/user/:login/", routes.post.user.update);
 // solution
 app.get("/api/solution/:id/", [authenticate, checkSolution], routes.get.solution.getById);
 app.get("/api/solution/task/:id/", [authenticate, checkSolution], routes.get.solution.getByTaskId);
+app.post("/api/solution/like/", authenticate, routes.get.solution.like);
 // login
 app.post("/api/login/", routes.post.login);
 app.post("/api/logout/", routes.post.logout);

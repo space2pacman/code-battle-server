@@ -4,7 +4,7 @@ let solutions = [
 		task: 0,
 		username: "pacman",
 		code: "function pacman() {}",
-		likes: 1,
+		likes: 0,
 		comments: 0
 	},
 	{
@@ -12,7 +12,7 @@ let solutions = [
 		task: 0,
 		username: "test",
 		code: "function test() {}",
-		likes: 10,
+		likes: 0,
 		comments: 0
 	}
 ]
@@ -69,6 +69,14 @@ class Solutions {
 
 		this._lastId++;
 		this._solutions.push(solution);
+	}
+
+	update(id, solution) {
+		for(let i = 0; i < this._solutions.length ; i++) {
+			if(this._solutions[i].id === id) {
+				Object.assign(this._solutions[i], solution);
+			}
+		}
 	}
 }
 

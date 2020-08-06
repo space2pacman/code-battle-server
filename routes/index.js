@@ -154,6 +154,29 @@ module.exports = {
 				}
 
 				response.send(answer)
+			},
+			like(request, response) {
+				let answer = {
+					status: "success",
+					data: null,
+					error: null
+				}
+				let user = users.getByLogin(response.locals.user.login);
+				let id = request.body.data.id;
+				let index = user.likes.indexOf(id);
+				let solution = solutions.getById(id);
+
+				if(index === -1) {
+					user.likes.push(id);
+					solution.likes++;
+				} else {
+					user.likes.splice(index, 1);
+					solution.likes--;
+				}
+
+				users.update(user.login, user);
+				solutions.update(id, solution);
+				response.send(answer);
 			}
 		}
 	},
@@ -349,7 +372,7 @@ module.exports = {
 				let solution = solutions.find(author, taskId);
 
 				if(solution) {
-					solution.code = code;
+					solution.code = code; // fix solution update
 				} else {
 					solutions.add(code, author, taskId);
 					user.tasks.solved.push(taskId);

@@ -20,7 +20,8 @@ let users = [
 			solved: [0, 1]
 		},
 		level: "middle",
-		points: 0
+		points: 0,
+		likes: []
 	},
 	{
 		login: "test",
@@ -43,7 +44,8 @@ let users = [
 			solved: [0]
 		},
 		level: "junior",
-		points: 0
+		points: 0,
+		likes: []
 	},
 	{
 		login: "kek",
@@ -66,7 +68,8 @@ let users = [
 			solved: [0]
 		},
 		level: "senior",
-		points: 0
+		points: 0,
+		likes: []
 	}
 ]
 
