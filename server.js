@@ -16,10 +16,10 @@ app.use("/public", express.static("public"));
 app.get("/", routes.get.home);
 app.get("/api/tasks/", routes.get.task.getAll);
 app.get("/api/task/:id/", routes.get.task.getById);
+app.post("/api/task/edit/", authenticate, routes.post.task.edit);
 app.post("/api/task/test/", authenticate, routes.post.task.test);
 app.post("/api/task/check/", authenticate, routes.post.task.check);
 app.post("/api/task/add/", authenticate, routes.post.task.add);
-app.post("/api/task/edit/", authenticate, routes.post.task.edit);
 app.post("/api/task/submit/", authenticate, routes.post.task.submit);
 // user
 app.get("/api/user/:login/", routes.get.user.getByLogin);
@@ -29,7 +29,8 @@ app.post("/api/user/:login/", routes.post.user.update);
 // solution
 app.get("/api/solution/:id/", [authenticate, checkSolution], routes.get.solution.getById);
 app.get("/api/solution/task/:id/", [authenticate, checkSolution], routes.get.solution.getByTaskId);
-app.post("/api/solution/like/", authenticate, routes.get.solution.like);
+app.get("/api/solution/liked/:login/", authenticate, routes.get.solution.getByLiked);
+app.post("/api/solution/like/", authenticate, routes.post.solution.like);
 // login
 app.post("/api/login/", routes.post.login);
 app.post("/api/logout/", routes.post.logout);

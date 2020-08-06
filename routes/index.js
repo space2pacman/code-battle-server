@@ -155,27 +155,26 @@ module.exports = {
 
 				response.send(answer)
 			},
-			like(request, response) {
+			getByLiked(request, response) {
 				let answer = {
 					status: "success",
+					url: "solution/liked",
 					data: null,
 					error: null
 				}
 				let user = users.getByLogin(response.locals.user.login);
-				let id = request.body.data.id;
-				let index = user.likes.solutions.indexOf(id);
-				let solution = solutions.getById(id);
+				let likes = user.likes.solutions;
 
-				if(index === -1) {
-					user.likes.solutions.push(id);
-					solution.likes++;
+				if(likes.length > 0) {
+					answer.data = [];
+
+					likes.forEach(id => {
+						answer.data.push(solutions.getById(id));
+					})
 				} else {
-					user.likes.solutions.splice(index, 1);
-					solution.likes--;
+					answer.data = "no liked solutions";
 				}
-
-				users.update(user.login, user);
-				solutions.update(id, solution);
+				
 				response.send(answer);
 			}
 		}
@@ -400,6 +399,31 @@ module.exports = {
 				}
 
 				users.update(username, data);
+				response.send(answer);
+			}
+		},
+		solution: {
+			like(request, response) {
+				let answer = {
+					status: "success",
+					data: null,
+					error: null
+				}
+				let user = users.getByLogin(response.locals.user.login);
+				let id = request.body.data.id;
+				let index = user.likes.solutions.indexOf(id);
+				let solution = solutions.getById(id);
+
+				if(index === -1) {
+					user.likes.solutions.push(id);
+					solution.likes++;
+				} else {
+					user.likes.solutions.splice(index, 1);
+					solution.likes--;
+				}
+
+				users.update(user.login, user);
+				solutions.update(id, solution);
 				response.send(answer);
 			}
 		},
