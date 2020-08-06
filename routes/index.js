@@ -371,6 +371,7 @@ module.exports = {
 				let data = {
 					login: username,
 					email: request.body.data.email,
+					userpic: request.body.data.userpic,
 					country: request.body.data.country,
 					level: request.body.data.level
 				}
