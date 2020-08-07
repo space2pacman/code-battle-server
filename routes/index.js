@@ -492,14 +492,13 @@ module.exports = {
 						}
 						
 						let path =  `public/images/users/${file.name}`;
-						let link = `http://localhost:8080/${path}`; // fix
 
 						file.mv(path, error => {
 							if(error) {
 								return response.send(500, error);
 							} else {
 								answer.data = {
-									link
+									link: path
 								};
 
 								response.send(answer);
