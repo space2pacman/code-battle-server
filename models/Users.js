@@ -6,6 +6,7 @@ let users = [
 			address: "pacman@gmail.com",
 			notification: true
 		},
+		verified: false,
 		userpic: "public/images/users/default.png",
 		socialNetworks: [
 			{
@@ -45,6 +46,7 @@ let users = [
 		tasks: {
 			solved: [0]
 		},
+		verified: false,
 		level: "junior",
 		points: 0,
 		likes: {
@@ -58,6 +60,34 @@ let users = [
 			address: "kek@gmail.com",
 			notification: false
 		},
+		verified: false,
+		userpic: "public/images/users/default.png",
+		socialNetworks: [
+			{
+				name: "github",
+				icon: "fab fa-github",
+				link: ""
+			}
+		],
+		country: "Россия",
+		accessLevel: 100,
+		tasks: {
+			solved: [0]
+		},
+		level: "senior",
+		points: 0,
+		likes: {
+			solutions: []
+		}
+	},
+	{
+		login: "google",
+		password: "test",
+		email: {
+			address: "google@gmail.com",
+			notification: false
+		},
+		verified: true,
 		userpic: "public/images/users/default.png",
 		socialNetworks: [
 			{
