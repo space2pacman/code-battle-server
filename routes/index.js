@@ -8,9 +8,6 @@ let log = console.log; // fix
 
 module.exports = {
 	get: {
-		home(request, response) {
-			response.send("home page");
-		},
 		task: {
 			getAll(request, response) {
 				let answer = {
