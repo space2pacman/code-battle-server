@@ -13,7 +13,6 @@ app.use(cors());
 app.use(fileUpload());
 app.use("/public", express.static("public"));
 // task
-app.get("/", routes.get.home);
 app.get("/api/tasks/", routes.get.task.getAll);
 app.get("/api/task/:id/", routes.get.task.getById);
 app.post("/api/task/edit/", authenticate, routes.post.task.edit);
