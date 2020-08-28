@@ -4,9 +4,10 @@ let users = require("../models/Users");
 let jwt = require("jsonwebtoken");
 let kindof = require("kind-of");
 let capitalize = require("capitalize");
-let { VM } = require("vm2");
-let vm = new VM();
-let log = console.log; // fix
+let { NodeVM } = require("vm2");
+let vm = new NodeVM({
+	console: "redirect"
+});
 
 module.exports = {
 	get: {
@@ -205,16 +206,21 @@ module.exports = {
 						logs: []
 					}
 
-					console.log = data => {
+					function onConsoleLog(data){
 						test.logs.push(data);
 					}
 
+					vm.on("console.log", onConsoleLog)
+
 					try {
-						test.return.value = vm.run(`
+						let func = vm.run(`
 							${code}
 						
-							${task.func.name}("${task.tests[i].input.value}")
+							module.exports = () => {
+								return ${task.func.name}("${task.tests[i].input.value}");
+							}
 						`);
+						test.return.value = func();
 						test.return.type = capitalize.words(kindof(test.return.value));
 					} catch(e) {
 						test.return.value = e.message;
@@ -243,6 +249,7 @@ module.exports = {
 					}
 
 					tests.push(test);
+					vm.removeListener("console.log", onConsoleLog);
 				}
 
 				answer.data = tests;
@@ -271,16 +278,21 @@ module.exports = {
 						logs: []
 					}
 
-					console.log = data => {
+					function onConsoleLog(data){
 						test.logs.push(data);
 					}
 
+					vm.on("console.log", onConsoleLog);
+
 					try {
-						test.return.value = vm.run(`
+						let func = vm.run(`
 							${data.func.body}
 
-							${data.func.name}("${data.tests[i].input.value}")
+							module.exports = () => {
+								return ${data.func.name}("${data.tests[i].input.value}");
+							}
 						`);
+						test.return.value = func();
 						test.return.type = capitalize.words(kindof(test.return.value));
 					} catch(e) {
 						test.return.value = e.message;
@@ -309,6 +321,7 @@ module.exports = {
 					}
 
 					tests.push(test);
+					vm.removeListener("console.log", onConsoleLog);
 				}
 
 				answer.data = tests;
