@@ -6,7 +6,8 @@ let kindof = require("kind-of");
 let capitalize = require("capitalize");
 let { NodeVM } = require("vm2");
 let vm = new NodeVM({
-	console: "redirect"
+	console: "redirect",
+	sandbox: {}
 });
 
 module.exports = {
@@ -203,14 +204,15 @@ module.exports = {
 							type: null
 						},
 						solved: null,
-						logs: []
+						logs: [],
+						error: false
 					}
 
 					function onConsoleLog(data){
 						test.logs.push(data);
 					}
 
-					vm.on("console.log", onConsoleLog)
+					vm.on("console.log", onConsoleLog);
 
 					try {
 						let func = vm.run(`
@@ -224,6 +226,17 @@ module.exports = {
 						test.return.type = capitalize.words(kindof(test.return.value));
 					} catch(e) {
 						test.return.value = e.message;
+					}
+
+					switch(true) {
+						case test.return.value.includes("is not defined"):
+						case test.return.value.includes("Access denied"):
+						case test.return.value.includes("Cannot access"):
+						case test.return.value.includes("Unexpected token"):
+						case test.return.value.includes("Assignment to constant variable."):
+							test.error = true;
+
+							break;
 					}
 
 					if(test.return.value === undefined) {
@@ -275,7 +288,8 @@ module.exports = {
 							type: null
 						},
 						solved: null,
-						logs: []
+						logs: [],
+						error: false
 					}
 
 					function onConsoleLog(data){
@@ -296,6 +310,17 @@ module.exports = {
 						test.return.type = capitalize.words(kindof(test.return.value));
 					} catch(e) {
 						test.return.value = e.message;
+					}
+
+					switch(true) {
+						case test.return.value.includes("is not defined"):
+						case test.return.value.includes("Access denied"):
+						case test.return.value.includes("Cannot access"):
+						case test.return.value.includes("Unexpected token"):
+						case test.return.value.includes("Assignment to constant variable."):
+							test.error = true;
+
+							break;
 					}
 
 					if(test.return.value === undefined) {
