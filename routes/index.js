@@ -205,7 +205,7 @@ module.exports = {
 						},
 						solved: null,
 						logs: [],
-						error: false
+						error: null
 					}
 
 					function onConsoleLog(data){
@@ -225,18 +225,7 @@ module.exports = {
 						test.return.value = func();
 						test.return.type = capitalize.words(kindof(test.return.value));
 					} catch(e) {
-						test.return.value = e.message;
-					}
-
-					switch(true) {
-						case test.return.value.includes("is not defined"):
-						case test.return.value.includes("Access denied"):
-						case test.return.value.includes("Cannot access"):
-						case test.return.value.includes("Unexpected token"):
-						case test.return.value.includes("Assignment to constant variable."):
-							test.error = true;
-
-							break;
+						test.error = e.message;
 					}
 
 					if(test.return.value === undefined) {
@@ -289,7 +278,7 @@ module.exports = {
 						},
 						solved: null,
 						logs: [],
-						error: false
+						error: null
 					}
 
 					function onConsoleLog(data){
@@ -309,18 +298,7 @@ module.exports = {
 						test.return.value = func();
 						test.return.type = capitalize.words(kindof(test.return.value));
 					} catch(e) {
-						test.return.value = e.message;
-					}
-
-					switch(true) {
-						case test.return.value.includes("is not defined"):
-						case test.return.value.includes("Access denied"):
-						case test.return.value.includes("Cannot access"):
-						case test.return.value.includes("Unexpected token"):
-						case test.return.value.includes("Assignment to constant variable."):
-							test.error = true;
-
-							break;
+						test.error = e.message;
 					}
 
 					if(test.return.value === undefined) {
