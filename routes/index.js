@@ -1,14 +1,8 @@
 let tasks = require("../models/Tasks");
 let solutions = require("../models/Solutions");
 let users = require("../models/Users");
+let test = require("../utils/test");
 let jwt = require("jsonwebtoken");
-let kindof = require("kind-of");
-let capitalize = require("capitalize");
-let { NodeVM } = require("vm2");
-let vm = new NodeVM({
-	console: "redirect",
-	sandbox: {}
-});
 
 module.exports = {
 	get: {
@@ -188,73 +182,15 @@ module.exports = {
 					data: null,
 					error: null
 				}
-				let code = request.body.code;
-				let id = request.body.id;
-				let tests = [];
-				let task = tasks.getById(id);
-
-				for(let i = 0; i < task.tests.length; i++) {
-					let test = {
-						expected: {
-							value: task.tests[i].output.value,
-							type: task.tests[i].output.type
-						},
-						return: {
-							value: null,
-							type: null
-						},
-						solved: null,
-						logs: [],
-						error: null
-					}
-
-					function onConsoleLog(data){
-						test.logs.push(data);
-					}
-
-					vm.on("console.log", onConsoleLog);
-
-					try {
-						let func = vm.run(`
-							${code}
-						
-							module.exports = () => {
-								return ${task.func.name}("${task.tests[i].input.value}");
-							}
-						`);
-						test.return.value = func();
-						test.return.type = capitalize.words(kindof(test.return.value));
-					} catch(e) {
-						test.error = e.message;
-					}
-
-					if(test.return.value === undefined) {
-						test.return.value = "undefined";
-					}
-
-					if(test.return.value === null) {
-						test.return.value = "null";
-					}
-
-					if(test.return.value === Infinity) {
-						test.return.value = "Infinity";
-					}
-
-					if(kindof(test.return.value) === "function") {
-						test.return.value = test.return.value.toString();
-					}
-
-					if(test.return.value === task.tests[i].output.value) {
-						test.solved = true;
-					} else {
-						test.solved = false;
-					}
-
-					tests.push(test);
-					vm.removeListener("console.log", onConsoleLog);
+				let id = request.body.id; 
+				let tests = tasks.getById(id).tests;
+				let func = {
+					name: tasks.getById(id).func.name,
+					body: request.body.code
 				}
+				let data = test.task(func.name, func.body, tests);
 
-				answer.data = tests;
+				answer.data = data;
 				response.send(answer);
 			},
 			check(request, response) { // fix double
@@ -263,71 +199,14 @@ module.exports = {
 					data: null,
 					error: null
 				}
-				let data = request.body.data;
-				let tests = [];
-
-				for(let i = 0; i < data.tests.length; i++) {
-					let test = {
-						expected: {
-							value: data.tests[i].output.value,
-							type: data.tests[i].output.type
-						},
-						return: {
-							value: null,
-							type: null
-						},
-						solved: null,
-						logs: [],
-						error: null
-					}
-
-					function onConsoleLog(data){
-						test.logs.push(data);
-					}
-
-					vm.on("console.log", onConsoleLog);
-
-					try {
-						let func = vm.run(`
-							${data.func.body}
-
-							module.exports = () => {
-								return ${data.func.name}("${data.tests[i].input.value}");
-							}
-						`);
-						test.return.value = func();
-						test.return.type = capitalize.words(kindof(test.return.value));
-					} catch(e) {
-						test.error = e.message;
-					}
-
-					if(test.return.value === undefined) {
-						test.return.value = "undefined";
-					}
-
-					if(test.return.value === null) {
-						test.return.value = "null";
-					}
-
-					if(test.return.value === Infinity) {
-						test.return.value = "Infinity";
-					}
-
-					if(kindof(test.return.value) === "function") {
-						test.return.value = test.return.value.toString();
-					}
-
-					if(test.return.value === data.tests[i].output.value) {
-						test.solved = true;
-					} else {
-						test.solved = false;
-					}
-
-					tests.push(test);
-					vm.removeListener("console.log", onConsoleLog);
+				let func = {
+					name: request.body.data.func.name,
+					body: request.body.data.func.body
 				}
+				let tests = request.body.data.tests;
+				let data = test.task(func.name, func.body, tests);
 
-				answer.data = tests;
+				answer.data = data;
 				response.send(answer);
 			},
 			add(request, response) {
