@@ -6,8 +6,6 @@ let { MessagePort, parentPort } = require('worker_threads');
 parentPort.on("message", handler);
 
 function handler({ funcName, funcBody, tests }) {
-	let results = [];
-
 	for(let i = 0; i < tests.length; i++) {
 		let test = {
 			expected: {
@@ -65,9 +63,7 @@ function handler({ funcName, funcBody, tests }) {
 			test.solved = false;
 		}
 
-		results.push(test);
+		parentPort.postMessage(test);
 		vm.removeListener("console.log", onConsoleLog);
 	}
-
-	parentPort.postMessage(results);
 }
