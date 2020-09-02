@@ -188,12 +188,13 @@ module.exports = {
 					name: tasks.getById(id).func.name,
 					body: request.body.code
 				}
-				let data = test.task(func.name, func.body, tests);
-
-				answer.data = data;
-				response.send(answer);
+				
+				test.task(func.name, func.body, tests, data => {
+					answer.data = data;
+					response.send(answer);
+				});
 			},
-			check(request, response) { // fix double
+			check(request, response) {
 				let answer = {
 					status: "success",
 					data: null,
@@ -204,10 +205,11 @@ module.exports = {
 					body: request.body.data.func.body
 				}
 				let tests = request.body.data.tests;
-				let data = test.task(func.name, func.body, tests);
 
-				answer.data = data;
-				response.send(answer);
+				test.task(func.name, func.body, tests, data => {
+					answer.data = data;
+					response.send(answer);
+				});
 			},
 			add(request, response) {
 				let answer = {
