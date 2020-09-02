@@ -37,6 +37,7 @@ function task(funcName, funcBody, tests, callback) {
 			}
 
 			data.push(test);
+			worker.terminate();
 			callback(data);
 		}
 	}
