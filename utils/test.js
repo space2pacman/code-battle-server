@@ -9,14 +9,14 @@ function task(funcName, funcBody, tests, callback) {
 	worker.postMessage({ funcName, funcBody, tests });
 	worker.on("message", test => {
 		clearTimeout(timer);
-		isFrozenv = false;
+		isFrozen = false;
 		data.push(test);
 
 		if(data.length === tests.length) {
 			callback(data);
 		} else {
 			timer = setTimeout(onTimer, 12000)
-			isFrozenv = true;
+			isFrozen = true;
 		}
 	});
 
