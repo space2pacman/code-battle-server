@@ -1,6 +1,7 @@
 let tasks = require("../models/Tasks");
 let solutions = require("../models/Solutions");
 let users = require("../models/Users");
+let version = require("../models/Version");
 let test = require("../utils/test");
 let jwt = require("jsonwebtoken");
 
@@ -172,6 +173,9 @@ module.exports = {
 				
 				response.send(answer);
 			}
+		},
+		version(request, response) {
+			response.send(version.get());
 		}
 	},
 	post: {

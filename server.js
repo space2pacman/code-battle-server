@@ -6,6 +6,7 @@ let fileUpload = require("express-fileupload");
 let authenticate = require("./middleware/authenticate");
 let checkSolution = require("./middleware/checkSolution");
 let app = express();
+let version = require("./models/Version").get();
 
 app.use(bodyParser.urlencoded());
 app.use(bodyParser.json());
@@ -13,28 +14,30 @@ app.use(cors());
 app.use(fileUpload());
 app.use("/public", express.static("public"));
 // task
-app.get("/api/tasks/", routes.get.task.getAll);
-app.get("/api/task/:id/", routes.get.task.getById);
-app.post("/api/task/edit/", authenticate, routes.post.task.edit);
-app.post("/api/task/test/", authenticate, routes.post.task.test);
-app.post("/api/task/check/", authenticate, routes.post.task.check);
-app.post("/api/task/add/", authenticate, routes.post.task.add);
-app.post("/api/task/submit/", authenticate, routes.post.task.submit);
+app.get(`/${version}/api/tasks/`, routes.get.task.getAll);
+app.get(`/${version}/api/task/:id/`, routes.get.task.getById);
+app.post(`/${version}/api/task/edit/`, authenticate, routes.post.task.edit);
+app.post(`/${version}/api/task/test/`, authenticate, routes.post.task.test);
+app.post(`/${version}/api/task/check/`, authenticate, routes.post.task.check);
+app.post(`/${version}/api/task/add/`, authenticate, routes.post.task.add);
+app.post(`/${version}/api/task/submit/`, authenticate, routes.post.task.submit);
 // user
-app.get("/api/user/:login/", routes.get.user.getByLogin);
-app.get("/api/user/:login/tasks/solved/", routes.get.user.tasks.solved);
-app.get("/api/user/:login/tasks/added/", routes.get.user.tasks.added);
-app.post("/api/user/:login/", routes.post.user.update);
+app.get(`/${version}/api/user/:login/`, routes.get.user.getByLogin);
+app.get(`/${version}/api/user/:login/tasks/solved/`, routes.get.user.tasks.solved);
+app.get(`/${version}/api/user/:login/tasks/added/`, routes.get.user.tasks.added);
+app.post(`/${version}/api/user/:login/`, routes.post.user.update);
 // solution
-app.get("/api/solution/liked/", authenticate, routes.get.solution.getByLiked);
-app.get("/api/solution/:id/", [authenticate, checkSolution], routes.get.solution.getById);
-app.get("/api/solution/task/:id/", [authenticate, checkSolution], routes.get.solution.getByTaskId);
-app.post("/api/solution/like/", authenticate, routes.post.solution.like);
+app.get(`/${version}/api/solution/liked/`, authenticate, routes.get.solution.getByLiked);
+app.get(`/${version}/api/solution/:id/`, [authenticate, checkSolution], routes.get.solution.getById);
+app.get(`/${version}/api/solution/task/:id/`, [authenticate, checkSolution], routes.get.solution.getByTaskId);
+app.post(`/${version}/api/solution/like/`, authenticate, routes.post.solution.like);
 // login
-app.post("/api/login/", routes.post.login);
-app.post("/api/logout/", routes.post.logout);
-app.post("/api/registration/", routes.post.registration);
+app.post(`/${version}/api/login/`, routes.post.login);
+app.post(`/${version}/api/logout/`, routes.post.logout);
+app.post(`/${version}/api/registration/`, routes.post.registration);
 // upload
-app.post("/api/upload/", authenticate, routes.post.upload);
+app.post(`/${version}/api/upload/`, authenticate, routes.post.upload);
+// version
+app.get("/api/version/", routes.get.version);
 
 app.listen(8080);
