@@ -1,7 +1,8 @@
+let version = require("../models/Version").get();
 let urls = {
-	"/api/solution/task/:id/": "solution/task",
-	"/api/solution/:id/": "solution",
-	"/api/task/test/": "task/test"
+	[`/${version}/api/solution/task/:id/`]: "solution/task",
+	[`/${version}/api/solution/:id/`]: "solution",
+	[`/${version}/api/task/test/`]: "task/test"
 }
 
 module.exports = urls;
