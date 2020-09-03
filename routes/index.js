@@ -264,7 +264,7 @@ module.exports = {
 				let solution = solutions.find(author, taskId);
 
 				if(solution) {
-					solution.code = code; // fix solution update
+					solutions.update(solution.id, { code });
 				} else {
 					solutions.add(code, author, taskId);
 					user.tasks.solved.push(taskId);
