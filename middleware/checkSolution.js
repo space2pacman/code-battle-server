@@ -3,7 +3,7 @@ let solutions = require("../models/Solutions");
 let urls = require("../utils/urls");
 
 function checkSolution(req, res, next) {
-	let user = users.getByLogin(res.locals.user.login);
+	let user = users.getByField("login", res.locals.user.login);
 	let url = urls[req.route.path];
 	let id;
 	let solution;

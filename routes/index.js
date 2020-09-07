@@ -48,7 +48,7 @@ module.exports = {
 					data: null,
 					error: null
 				}
-				let user = users.getByLogin(login);
+				let user = users.getByField("login", login);
 
 				if(user) {
 					answer.status = "success";
@@ -69,7 +69,7 @@ module.exports = {
 						data: null,
 						error: null
 					}
-					let user = users.getByLogin(login);
+					let user = users.getByField("login", login);
 
 					if(user && user.tasks.solved.length > 0) {
 						let data = [];
@@ -94,7 +94,7 @@ module.exports = {
 						data: null,
 						error: null
 					}
-					let user = users.getByLogin(login);
+					let user = users.getByField("login", login);
 					let data = tasks.getByAuthor(user.login);
 
 					if(user && data.length > 0) {
@@ -158,7 +158,7 @@ module.exports = {
 					data: null,
 					error: null
 				}
-				let user = users.getByLogin(response.locals.user.login);
+				let user = users.getByField("login", response.locals.user.login);
 				let likes = user.likes.solutions;
 
 				if(likes.length > 0) {
@@ -264,7 +264,7 @@ module.exports = {
 				let taskId = request.body.data.taskId;
 				let code = request.body.data.code;
 				let author = request.body.data.author;
-				let user = users.getByLogin(author);
+				let user = users.getByField("login", author);
 				let solution = solutions.find(author, taskId);
 
 				if(solution) {
@@ -306,7 +306,7 @@ module.exports = {
 					data: null,
 					error: null
 				}
-				let user = users.getByLogin(response.locals.user.login);
+				let user = users.getByField("login", response.locals.user.login);
 				let id = request.body.data.id;
 				let index = user.likes.solutions.indexOf(id);
 				let solution = solutions.getById(id);
@@ -356,9 +356,21 @@ module.exports = {
 			response.send(answer);
 		},
 		registration(request, response) {
+			let login = request.body.login;
+			let password = request.body.password;
+			let email = request.body.email;
+			let user = users.getByField("login", login);
 			let answer = {
-				status: "success"
+				status: "success",
+				error: null
 			}
+
+			// if(user) {
+			// 	answer.status = "error";
+			// 	answer.error = "user already exists"
+			// } else {
+
+			// }
 
 			response.send(answer);
 		},

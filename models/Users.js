@@ -114,11 +114,11 @@ class Users {
 		this._users = users;
 	}
 
-	getByLogin(login) {
+	getByField(field, value) {
 		let user;
 
 		for(let i = 0; i < this._users.length; i++) {
-			if(this._users[i].login === login) {
+			if(this._users[i][field] === value) {
 				user = JSON.parse(JSON.stringify(this._users[i]));
 
 				break;
