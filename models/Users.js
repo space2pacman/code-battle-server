@@ -114,20 +114,38 @@ class Users {
 		this._users = users;
 	}
 
-	getByField(field, value) {
+	getByField(key, value) {
 		let user;
 
 		for(let i = 0; i < this._users.length; i++) {
-			if(this._users[i][field] === value) {
-				user = JSON.parse(JSON.stringify(this._users[i]));
+			let keys = key.split(".");
+			
+			if(keys.length > 1) {
+				let propertie = this._users[i];
 
-				break;
+				for(let i = 0; i < keys.length; i++) {	
+					propertie = propertie[keys[i]];
+				}
+				
+				if(propertie === value) {
+					user = JSON.parse(JSON.stringify(this._users[i]));
+					
+					delete user.password;
+					break;
+				} else {
+					user = false;
+				}
 			} else {
-				user = false;
+				if(this._users[i][key] === value) {
+					user = JSON.parse(JSON.stringify(this._users[i]));
+
+					delete user.password;
+					break;
+				} else {
+					user = false;
+				}
 			}
 		}
-
-		delete user.password;
 
 		return user;
 	}
@@ -164,6 +182,32 @@ class Users {
 				Object.assign(this._users[i], user);
 			}
 		}
+	}
+
+	add(params) {
+		let user = {
+			login: params.login,
+			password: params.password,
+			email: {
+				address: params.email,
+				notification: true
+			},
+			verified: false,
+			userpic: "public/images/users/default.png",
+			socialNetworks: [],
+			country: "США",
+			accessLevel: 0,
+			tasks: {
+				solved: []
+			},
+			level: "junior",
+			points: 0,
+			likes: {
+				solutions: []
+			}
+		}
+
+		this._users.push(user);
 	}
 }
 

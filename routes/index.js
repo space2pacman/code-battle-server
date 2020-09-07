@@ -359,18 +359,24 @@ module.exports = {
 			let login = request.body.login;
 			let password = request.body.password;
 			let email = request.body.email;
-			let user = users.getByField("login", login);
+			let fields = {
+				user: users.getByField("login", login),
+				email: users.getByField("email.address", email)
+			}
 			let answer = {
 				status: "success",
 				error: null
 			}
 
-			// if(user) {
-			// 	answer.status = "error";
-			// 	answer.error = "user already exists"
-			// } else {
-
-			// }
+			if(fields.user) {
+				answer.status = "error";
+				answer.error = "user already exists"
+			} else if(fields.email) {
+				answer.status = "error";
+				answer.error = "email already exists"
+			} else {
+				users.add({ login, password, email });
+			}
 
 			response.send(answer);
 		},
