@@ -292,11 +292,14 @@ module.exports = {
 					email: request.body.data.email,
 					userpic: request.body.data.userpic,
 					country: request.body.data.country,
-					level: request.body.data.level
+					level: request.body.data.level,
+					socialNetworks: request.body.data.socialNetworks
 				}
 				let fields = {
 					email: users.getByField("email.address", data.email.address)
 				}
+
+				data.socialNetworks = data.socialNetworks.filter(socialNetwork => socialNetwork.link.length > 0);
 
 				if(fields.email && user.email.address !== data.email.address) {
 					answer.status = "error";
