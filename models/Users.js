@@ -56,13 +56,7 @@ let users = [
 		},
 		verified: false,
 		userpic: "public/images/users/default.png",
-		socialNetworks: [
-			{
-				name: "github",
-				icon: "fab fa-github",
-				link: ""
-			}
-		],
+		socialNetworks: [],
 		country: "Россия",
 		accessLevel: 100,
 		tasks: {
@@ -83,13 +77,7 @@ let users = [
 		},
 		verified: true,
 		userpic: "public/images/users/default.png",
-		socialNetworks: [
-			{
-				name: "github",
-				icon: "fab fa-github",
-				link: ""
-			}
-		],
+		socialNetworks: [],
 		country: "Россия",
 		accessLevel: 100,
 		tasks: {
