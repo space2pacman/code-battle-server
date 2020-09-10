@@ -191,6 +191,10 @@ class Users {
 
 		this._users.push(user);
 	}
+
+	checkPassword(login, password) {
+		return this.find(login, password);
+	}
 }
 
 module.exports = new Users();
