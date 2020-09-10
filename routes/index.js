@@ -290,7 +290,6 @@ module.exports = {
 				let user = users.getByField("login", login)
 				let data = {
 					login,
-					password: password.new,
 					email: request.body.data.email,
 					userpic: request.body.data.userpic,
 					country: request.body.data.country,
@@ -304,10 +303,14 @@ module.exports = {
 
 				data.socialNetworks = data.socialNetworks.filter(socialNetwork => socialNetwork.link.length > 0);
 
+				if(password.old !== null && password.new !== null) {
+					data.password = password.new;
+				}
+
 				if(fields.email && user.email.address !== data.email.address) {
 					answer.status = "error";
 					answer.error = "email already exists"
-				} else if(fields.password === "wrong password") {
+				} else if(password.old !== null && password.new !== null && fields.password === "wrong password") {
 					answer.status = "error";
 					answer.error = "wrong old password";
 				} else {
