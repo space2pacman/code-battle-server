@@ -290,7 +290,11 @@ module.exports = {
 				let user = users.getByField("login", login)
 				let data = {
 					login,
-					email: request.body.data.email,
+					email: {
+						address: request.body.data.email.address,
+						confirmed: user.email.confirmed,
+						notification: request.body.data.email.notification
+					},
 					userpic: request.body.data.userpic,
 					country: request.body.data.country,
 					level: request.body.data.level,

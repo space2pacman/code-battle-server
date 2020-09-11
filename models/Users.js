@@ -176,7 +176,8 @@ class Users {
 			password: params.password,
 			email: {
 				address: params.email,
-				notification: true
+				notification: true,
+				confirmed: false
 			},
 			verified: false,
 			userpic: "public/images/users/default.png",
