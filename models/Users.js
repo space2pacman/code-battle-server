@@ -4,6 +4,7 @@ let users = [
 		password: "test",
 		email: {
 			address: "pacman@gmail.com",
+			confirmed: false,
 			notification: true
 		},
 		verified: false,
@@ -31,6 +32,7 @@ let users = [
 		password: "test",
 		email: {
 			address: "test@gmail.com",
+			confirmed: false,
 			notification: false
 		},
 		userpic: "public/images/users/default.png",
@@ -52,6 +54,7 @@ let users = [
 		password: "kek",
 		email: {
 			address: "kek@gmail.com",
+			confirmed: true,
 			notification: false
 		},
 		verified: false,
@@ -73,6 +76,7 @@ let users = [
 		password: "test",
 		email: {
 			address: "google@gmail.com",
+			confirmed: true,
 			notification: false
 		},
 		verified: true,
