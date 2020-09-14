@@ -15,6 +15,7 @@ app.use(bodyParser.json());
 app.use(cors());
 app.use(fileUpload());
 app.use("/public", express.static("public"));
+
 // task
 app.get(`/${version}/api/tasks/`, routes.get.task.getAll);
 app.get(`/${version}/api/task/:id/`, routes.get.task.getById);
