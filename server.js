@@ -5,9 +5,11 @@ let cors = require("cors");
 let fileUpload = require("express-fileupload");
 let authenticate = require("./middleware/authenticate");
 let checkSolution = require("./middleware/checkSolution");
-let app = express();
+let helmet = require("helmet");
 let version = require("./models/Version").get();
+let app = express();
 
+app.use(helmet());
 app.use(bodyParser.urlencoded());
 app.use(bodyParser.json());
 app.use(cors());
