@@ -4,6 +4,9 @@ let users = require("../models/Users");
 let version = require("../models/Version");
 let test = require("../utils/test");
 let jwt = require("jsonwebtoken");
+let regex = {
+	form: /^[a-zA-Z0-9]+$/
+}
 
 module.exports = {
 	get: {
@@ -352,25 +355,36 @@ module.exports = {
 		login(request, response) {
 			let login = request.body.login;
 			let password = request.body.password;
-			let user = users.find(login, password);
 			let answer = {
 				status: "success",
 				data: null,
 				error: null
 			}
 
-			if(typeof user !== "string") {
-				let token = jwt.sign(user, '7x0jhxt"9(thpX6');
-
-				answer.data = {
-					user,
-					token 
-				};
+			if(!regex.form.test(login)) {
+				answer.status = "error";
+				answer.error = "invalid characters in login";
+				response.send(answer);
+			} else if(!regex.form.test(password)) {
+				answer.status = "error";
+				answer.error = "invalid characters in password";
 				response.send(answer);
 			} else {
-				answer.status = "error";
-				answer.error = user;
-				response.send(404, answer);
+				let user = users.find(login, password);
+				
+				if(typeof user !== "string") {
+					let token = jwt.sign(user, '7x0jhxt"9(thpX6');
+
+					answer.data = {
+						user,
+						token 
+					};
+					response.send(answer);
+				} else {
+					answer.status = "error";
+					answer.error = user;
+					response.send(404, answer);
+				}
 			}
 		},
 		logout(request, response) {
@@ -384,23 +398,32 @@ module.exports = {
 			let login = request.body.login;
 			let password = request.body.password;
 			let email = request.body.email;
-			let fields = {
-				user: users.getByField("login", login),
-				email: users.getByField("email.address", email)
-			}
 			let answer = {
 				status: "success",
 				error: null
 			}
 
-			if(fields.user) {
+			if(!regex.form.test(login)) {
 				answer.status = "error";
-				answer.error = "user already exists"
-			} else if(fields.email) {
+				answer.error = "invalid characters in login";
+			} else if(!regex.form.test(password)) {
 				answer.status = "error";
-				answer.error = "email already exists"
+				answer.error = "invalid characters in password";
 			} else {
-				users.add({ login, password, email });
+				let fields = {
+					user: users.getByField("login", login),
+					email: users.getByField("email.address", email)
+				}
+
+				if(fields.user) {
+					answer.status = "error";
+					answer.error = "user already exists";
+				} else if(fields.email) {
+					answer.status = "error";
+					answer.error = "email already exists";
+				} else {
+					users.add({ login, password, email });
+				}
 			}
 
 			response.send(answer);
