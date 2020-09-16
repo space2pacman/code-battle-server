@@ -1,3 +1,3 @@
-[submodule "database-control"]
-	path = database-control
-	url = https://github.com/space2pacman-misc/database-control
+[submodule "database"]
+	path = database
+	url = https://github.com/space2pacman-misc/database
