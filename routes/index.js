@@ -43,7 +43,7 @@ module.exports = {
 			}
 		},
 		user: {
-			getByLogin(request, response) {
+			async getByLogin(request, response) {
 				let login = request.params.login;
 				let answer = {
 					status: null,
@@ -51,7 +51,7 @@ module.exports = {
 					data: null,
 					error: null
 				}
-				let user = users.getByField("login", login);
+				let user = await users.getByField("login", login);
 
 				if(user) {
 					answer.status = "success";
@@ -64,7 +64,7 @@ module.exports = {
 				response.send(answer);
 			},
 			tasks: {
-				solved(request, response) {
+				async solved(request, response) {
 					let login = request.params.login;
 					let answer = {
 						status: null,
@@ -72,7 +72,7 @@ module.exports = {
 						data: null,
 						error: null
 					}
-					let user = users.getByField("login", login);
+					let user = await users.getByField("login", login);
 
 					if(user && user.tasks.solved.length > 0) {
 						let data = [];
@@ -89,7 +89,7 @@ module.exports = {
 
 					response.send(answer);
 				},
-				added(request, response) {
+				async added(request, response) {
 					let login = request.params.login;
 					let answer = {
 						status: null,
@@ -97,8 +97,8 @@ module.exports = {
 						data: null,
 						error: null
 					}
-					let user = users.getByField("login", login);
-					let data = tasks.getByAuthor(user.login);
+					let user = await users.getByField("login", login);
+					let data = await tasks.getByAuthor(user.login);
 
 					if(user && data.length > 0) {
 						answer.data = data;
@@ -154,14 +154,14 @@ module.exports = {
 
 				response.send(answer)
 			},
-			getByLiked(request, response) {
+			async getByLiked(request, response) {
 				let answer = {
 					status: "success",
 					url: "solution/liked",
 					data: null,
 					error: null
 				}
-				let user = users.getByField("login", response.locals.user.login);
+				let user = await users.getByField("login", response.locals.user.login);
 				let likes = user.likes.solutions;
 
 				if(likes.length > 0) {
@@ -258,7 +258,7 @@ module.exports = {
 				}
 				
 			},
-			submit(request, response) {
+			async submit(request, response) {
 				let answer = {
 					status: "success",
 					data: null,
@@ -267,7 +267,7 @@ module.exports = {
 				let taskId = request.body.data.taskId;
 				let code = request.body.data.code;
 				let author = request.body.data.author;
-				let user = users.getByField("login", author);
+				let user = await users.getByField("login", author);
 				let solution = solutions.find(author, taskId);
 
 				if(solution) {
@@ -282,7 +282,7 @@ module.exports = {
 			}
 		},
 		user: {
-			update(request, response) {
+			async update(request, response) {
 				let answer = {
 					status: "success",
 					data: null,
@@ -290,7 +290,7 @@ module.exports = {
 				}
 				let login = request.body.data.login;
 				let password = request.body.data.password;
-				let user = users.getByField("login", login)
+				let user = await users.getByField("login", login)
 				let data = {
 					login,
 					email: {
@@ -304,7 +304,7 @@ module.exports = {
 					socialNetworks: request.body.data.socialNetworks
 				}
 				let fields = {
-					email: users.getByField("email.address", data.email.address),
+					email: await users.getByField("email.address", data.email.address),
 					password: users.checkPassword(login, password.old)
 				}
 
@@ -328,13 +328,13 @@ module.exports = {
 			}
 		},
 		solution: {
-			like(request, response) {
+			async like(request, response) {
 				let answer = {
 					status: "success",
 					data: null,
 					error: null
 				}
-				let user = users.getByField("login", response.locals.user.login);
+				let user = await users.getByField("login", response.locals.user.login);
 				let id = request.body.data.id;
 				let index = user.likes.solutions.indexOf(id);
 				let solution = solutions.getById(id);
@@ -352,7 +352,7 @@ module.exports = {
 				response.send(answer);
 			}
 		},
-		login(request, response) {
+		async login(request, response) {
 			let login = request.body.login;
 			let password = request.body.password;
 			let answer = {
@@ -370,7 +370,7 @@ module.exports = {
 				answer.error = "invalid characters in password";
 				response.send(answer);
 			} else {
-				let user = users.find(login, password);
+				let user = await users.find(login, password);
 				
 				if(typeof user !== "string") {
 					let token = jwt.sign(user, '7x0jhxt"9(thpX6');
@@ -394,7 +394,7 @@ module.exports = {
 
 			response.send(answer);
 		},
-		registration(request, response) {
+		async registration(request, response) {
 			let login = request.body.login;
 			let password = request.body.password;
 			let email = request.body.email;
@@ -411,8 +411,8 @@ module.exports = {
 				answer.error = "invalid characters in password";
 			} else {
 				let fields = {
-					user: users.getByField("login", login),
-					email: users.getByField("email.address", email)
+					user: await users.getByField("login", login),
+					email: await users.getByField("email.address", email)
 				}
 
 				if(fields.user) {

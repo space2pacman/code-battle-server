@@ -1,165 +1,39 @@
-let users = [
-	{
-		login: "pacman",
-		password: "test",
-		email: {
-			address: "pacman@gmail.com",
-			confirmed: false,
-			notification: true
-		},
-		verified: false,
-		userpic: "public/images/users/default.png",
-		socialNetworks: [
-			{
-				name: "github",
-				icon: "fab fa-github",
-				link: "http://github.com/space2pacman"
-			}
-		],
-		country: "США",
-		accessLevel: 0,
-		tasks: {
-			solved: [0, 1]
-		},
-		level: "middle",
-		points: 0,
-		likes: {
-			solutions: []
-		}
-	},
-	{
-		login: "test",
-		password: "test",
-		email: {
-			address: "test@gmail.com",
-			confirmed: false,
-			notification: false
-		},
-		userpic: "public/images/users/default.png",
-		socialNetworks: [],
-		country: "Россия",
-		accessLevel: 0,
-		tasks: {
-			solved: [0]
-		},
-		verified: false,
-		level: "junior",
-		points: 0,
-		likes: {
-			solutions: []
-		}
-	},
-	{
-		login: "kek",
-		password: "kek",
-		email: {
-			address: "kek@gmail.com",
-			confirmed: true,
-			notification: false
-		},
-		verified: false,
-		userpic: "public/images/users/default.png",
-		socialNetworks: [],
-		country: "Россия",
-		accessLevel: 100,
-		tasks: {
-			solved: [0]
-		},
-		level: "senior",
-		points: 0,
-		likes: {
-			solutions: []
-		}
-	},
-	{
-		login: "google",
-		password: "test",
-		email: {
-			address: "google@gmail.com",
-			confirmed: true,
-			notification: false
-		},
-		verified: true,
-		userpic: "public/images/users/default.png",
-		socialNetworks: [],
-		country: "Россия",
-		accessLevel: 100,
-		tasks: {
-			solved: [0]
-		},
-		level: "senior",
-		points: 0,
-		likes: {
-			solutions: []
-		}
-	}
-]
+let database = require("./../utils/database");
 
 class Users {
 	constructor() {
-		this._users = users;
+		this._users = null;
+		this._init();
 	}
 
-	getByField(key, value) {
-		let user;
+	async getByField(key, value) {
+		let user = await this._users.findOne({ [key]: value });
 
-		for(let i = 0; i < this._users.length; i++) {
-			let keys = key.split(".");
-			
-			if(keys.length > 1) {
-				let propertie = this._users[i];
+		if(user) {
+			delete user.password;
 
-				for(let i = 0; i < keys.length; i++) {	
-					propertie = propertie[keys[i]];
-				}
-				
-				if(propertie === value) {
-					user = JSON.parse(JSON.stringify(this._users[i]));
-					
-					delete user.password;
-					break;
-				} else {
-					user = false;
-				}
-			} else {
-				if(this._users[i][key] === value) {
-					user = JSON.parse(JSON.stringify(this._users[i]));
-
-					delete user.password;
-					break;
-				} else {
-					user = false;
-				}
-			}
+			return user;
+		} else {
+			return false;
 		}
-
-		return user;
 	}
 
-	find(login, password) {
-		let result = false;
+	async find(login, password) {
+		let user = await this._users.findOne({ "login": login });
 
-		for(let i = 0; i < this._users.length ; i++) {
-			let user = JSON.parse(JSON.stringify(this._users[i]));
-
+		if(user) {
 			if(user.login === login) {
 				if(user.password != password) {
 					result = "wrong password";
 				} else {
 					delete user.password;
 
-					result = user;
+					return user;
 				}
-
-				break;
 			}
+		} else {
+			return "user not found";
 		}
-
-		if(result === false) {
-			result = "user not found";
-		}
-
-		return result;
 	}
 
 	update(username, user) {
@@ -194,11 +68,17 @@ class Users {
 			}
 		}
 
-		this._users.push(user);
+		this._users.insertOne(user);
 	}
 
 	checkPassword(login, password) {
 		return this.find(login, password);
+	}
+
+	async _init() {
+		let db = await database;
+
+		this._users = db.collection("users");
 	}
 }
 
