@@ -11,17 +11,17 @@ let regex = {
 module.exports = {
 	get: {
 		task: {
-			getAll(request, response) {
+			async getAll(request, response) {
 				let answer = {
 					status: "success",
 					url: "tasks",
-					data: tasks.getAll(),
+					data: await tasks.getAll(),
 					error: null
 				}
 
 				response.send(answer);
 			},
-			getById(request, response) {
+			async getById(request, response) {
 				let id = request.params.id;
 				let answer = {
 					status: null,
@@ -29,7 +29,7 @@ module.exports = {
 					data: null,
 					error: null
 				}
-				let task = tasks.getById(id);
+				let task = await tasks.getById(id);
 
 				if(task) {
 					answer.status = "success";
@@ -77,9 +77,12 @@ module.exports = {
 					if(user && user.tasks.solved.length > 0) {
 						let data = [];
 
-						user.tasks.solved.forEach(id => {
-							data.push(tasks.getById(id));
-						});
+						for(let i = 0; i < user.tasks.solved.length; i++) {
+							let id = user.tasks.solved[i];
+
+							data.push(await tasks.getById(id));
+						}
+
 						answer.data = data;
 						answer.status = "success";
 					} else {
@@ -113,7 +116,7 @@ module.exports = {
 			}
 		},
 		solution: {
-			getById(request, response) {
+			async getById(request, response) {
 				let id = request.params.id;
 				let answer = {
 					status: null,
@@ -121,7 +124,7 @@ module.exports = {
 					data: null,
 					error: null
 				}
-				let solution = solutions.getById(id);
+				let solution = await solutions.getById(id);
 
 				if(solution) {
 					answer.data = solution;
@@ -133,7 +136,7 @@ module.exports = {
 
 				response.send(answer)
 			},
-			getByTaskId(request, response) {
+			async getByTaskId(request, response) {
 				let id = request.params.id;
 				let answer = {
 					status: null,
@@ -141,7 +144,7 @@ module.exports = {
 					data: null,
 					error: null
 				}
-				let data = solutions.getByTaskId(id);
+				let data = await solutions.getByTaskId(id);
 
 				if(data.length === 0) {
 					answer.status = "error";
@@ -167,9 +170,11 @@ module.exports = {
 				if(likes.length > 0) {
 					answer.data = [];
 
-					likes.forEach(id => {
-						answer.data.push(solutions.getById(id));
-					})
+					for(let i = 0; i < likes.length; i++) {
+						let id = likes[i];
+						
+						answer.data.push(await solutions.getById(id));
+					}
 				} else {
 					answer.data = "no liked solutions";
 				}
@@ -183,16 +188,17 @@ module.exports = {
 	},
 	post: {
 		task: {
-			test(request, response) {
+			async test(request, response) {
 				let answer = {
 					status: "success",
 					data: null,
 					error: null
 				}
 				let id = request.body.id; 
-				let tests = tasks.getById(id).tests;
+				let task = await tasks.getById(id);
+				let tests =  task.tests;
 				let func = {
-					name: tasks.getById(id).func.name,
+					name: task.func.name,
 					body: request.body.code
 				}
 				
@@ -218,7 +224,7 @@ module.exports = {
 					response.send(answer);
 				});
 			},
-			add(request, response) {
+			async add(request, response) {
 				let answer = {
 					status: "success",
 					data: null,
@@ -231,10 +237,10 @@ module.exports = {
 
 				task.func.body = func;
 				task.author = author;
-				tasks.add(task);
+				await tasks.add(task);
 				response.send(answer);
 			},
-			edit(request, response) {
+			async edit(request, response) {
 				let answer = {
 					status: "success",
 					data: null,
@@ -244,12 +250,12 @@ module.exports = {
 				let fields = request.body.data.fields;
 				let func = request.body.data.func;
 				let author = request.body.data.author;
-				let task = tasks.getById(id);
+				let task = await tasks.getById(id);
 
 				if(task.author === author) {
 					fields.func.body = func;
 					fields.author = author;
-					tasks.edit(id, fields);
+					await tasks.edit(id, fields);
 					response.send(answer);
 				} else {
 					answer.status = "error";
@@ -268,14 +274,14 @@ module.exports = {
 				let code = request.body.data.code;
 				let author = request.body.data.author;
 				let user = await users.getByField("login", author);
-				let solution = solutions.find(author, taskId);
+				let solution = await solutions.find(author, taskId);
 
 				if(solution) {
-					solutions.update(solution.id, { code });
+					await solutions.update(solution.id, { code });
 				} else {
-					solutions.add(code, author, taskId);
 					user.tasks.solved.push(taskId);
-					users.update(author, user);
+					await solutions.add(code, author, taskId);
+					await users.update(author, user);
 				}
 
 				response.send(answer);
@@ -305,7 +311,7 @@ module.exports = {
 				}
 				let fields = {
 					email: await users.getByField("email.address", data.email.address),
-					password: users.checkPassword(login, password.old)
+					password: await users.checkPassword(login, password.old)
 				}
 
 				data.socialNetworks = data.socialNetworks.filter(socialNetwork => socialNetwork.link.length > 0);
@@ -337,7 +343,7 @@ module.exports = {
 				let user = await users.getByField("login", response.locals.user.login);
 				let id = request.body.data.id;
 				let index = user.likes.solutions.indexOf(id);
-				let solution = solutions.getById(id);
+				let solution = await solutions.getById(id);
 
 				if(index === -1) {
 					user.likes.solutions.push(id);
@@ -347,8 +353,8 @@ module.exports = {
 					solution.likes--;
 				}
 
-				users.update(user.login, user);
-				solutions.update(id, solution);
+				await users.update(user.login, user);
+				await solutions.update(id, solution);
 				response.send(answer);
 			}
 		},
@@ -422,7 +428,7 @@ module.exports = {
 					answer.status = "error";
 					answer.error = "email already exists";
 				} else {
-					users.add({ login, password, email });
+					await users.add({ login, password, email });
 				}
 			}
 

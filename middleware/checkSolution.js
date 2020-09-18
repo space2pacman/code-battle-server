@@ -15,7 +15,7 @@ async function checkSolution(req, res, next) {
 
 	switch(url) {
 		case "solution":
-			solution = solutions.getById(req.params.id);
+			solution = await solutions.getById(req.params.id);
 
 			if(!solution) {
 				answer.status = "error";

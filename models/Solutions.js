@@ -1,82 +1,58 @@
-let solutions = [
-	{
-		id: 0,
-		task: 0,
-		username: "pacman",
-		code: "function pacman() {}",
-		likes: 0,
-		comments: 0
-	},
-	{
-		id: 1,
-		task: 0,
-		username: "test",
-		code: "function test() {}",
-		likes: 0,
-		comments: 0
-	}
-]
+let database = require("./../utils/database");
 
 class Solutions {
 	constructor() {
-		this._solutions = solutions;
+		this._solutions = null;
 		this._lastId = 2;
+		this._init();
 	}
 
-	getById(id) {
-		let solution = false;
-
-		for(let i = 0; i < this._solutions.length; i++) {
-			if(this._solutions[i].id === Number(id)) {
-				solution = this._solutions[i];
-
-				break;
-			}
-		}
-
-		return solution;
+	async getById(id) {
+		return await this._solutions.findOne({ id: Number(id) });
 	}
 
-	getByTaskId(id) {
+	async getByTaskId(id) {
 		let solutions = [];
 
-		for(let i = 0; i < this._solutions.length; i++) {
-			if(this._solutions[i].task === Number(id)) {
-				solutions.push(this._solutions[i]);
-			}
-		}
+		await this._solutions.find({ "task": Number(id) }).forEach(solution => {
+			solutions.push(solution);
+		})
 
 		return solutions;
 	}
 
-	getCountByTaskId(id) {
-		return this.getByTaskId(id).length;
+	async getCountByTaskId(id) {
+		let solutions = await this.getByTaskId(id);
+
+		return solutions.length;
 	}
 
-	find(username, taskId) {
-		return this._solutions.filter(item => item.username === username && item.task === taskId)[0];
+	async find(username, taskId) {
+		return await this._solutions.findOne({ username, task: Number(taskId) });
 	}
 	
-	add(code, author, taskId) {
+	async add(code, username, taskId) {
 		let solution = {
 			id: this._lastId,
 			task: taskId,
-			username: author,
-			code: code,
+			username,
+			code,
 			likes: 0,
 			comments: 0
 		}
 
 		this._lastId++;
-		this._solutions.push(solution);
+		await this._solutions.insertOne(solution);
 	}
 
-	update(id, solution) {
-		for(let i = 0; i < this._solutions.length ; i++) {
-			if(this._solutions[i].id === id) {
-				Object.assign(this._solutions[i], solution);
-			}
-		}
+	async update(id, solution) {
+		await this._solutions.updateOne({ id: Number(id) }, { $set: solution });
+	}
+
+	async _init() {
+		let db = await database;
+
+		this._solutions = db.collection("solutions");
 	}
 }
 

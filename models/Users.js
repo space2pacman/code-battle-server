@@ -11,6 +11,7 @@ class Users {
 
 		if(user) {
 			delete user.password;
+			delete user._id;
 
 			return user;
 		} else {
@@ -24,9 +25,10 @@ class Users {
 		if(user) {
 			if(user.login === login) {
 				if(user.password != password) {
-					result = "wrong password";
+					return "wrong password";
 				} else {
 					delete user.password;
+					delete user._id;
 
 					return user;
 				}
@@ -36,15 +38,11 @@ class Users {
 		}
 	}
 
-	update(username, user) {
-		for(let i = 0; i < this._users.length ; i++) {
-			if(this._users[i].login === username) {
-				Object.assign(this._users[i], user);
-			}
-		}
+	async update(login, user) {
+		await this._users.updateOne({ "login": login }, { $set: user });
 	}
 
-	add(params) {
+	async add(params) {
 		let user = {
 			login: params.login,
 			password: params.password,
@@ -68,11 +66,11 @@ class Users {
 			}
 		}
 
-		this._users.insertOne(user);
+		await this._users.insertOne(user);
 	}
 
-	checkPassword(login, password) {
-		return this.find(login, password);
+	async checkPassword(login, password) {
+		return await this.find(login, password);
 	}
 
 	async _init() {
