@@ -1,7 +1,7 @@
 let tasks = require("../models/Tasks");
 let solutions = require("../models/Solutions");
 let users = require("../models/Users");
-let version = require("../models/Version");
+let version = require("../utils/version");
 let test = require("../utils/test");
 let jwt = require("jsonwebtoken");
 let regex = {
@@ -43,6 +43,16 @@ module.exports = {
 			}
 		},
 		user: {
+			async getAll(request, response) {
+				let answer = {
+					status: "success",
+					url: "users",
+					data: await users.getAll(),
+					error: null
+				}
+
+				response.send(answer);
+			},
 			async getByLogin(request, response) {
 				let login = request.params.login;
 				let answer = {

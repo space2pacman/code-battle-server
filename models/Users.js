@@ -6,6 +6,22 @@ class Users {
 		this._init();
 	}
 
+	async getAll() {
+		let users = [];
+		let cursor = this._users.find();
+
+		while(await cursor.hasNext()) {
+			let user = await cursor.next();
+
+			delete user.password;
+			delete user._id;
+
+			users.push(user);
+		}
+
+		return users;
+	}
+
 	async getByField(key, value) {
 		let user = await this._users.findOne({ [key]: value });
 

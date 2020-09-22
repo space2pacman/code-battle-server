@@ -5,8 +5,10 @@ let cors = require("cors");
 let fileUpload = require("express-fileupload");
 let authenticate = require("./middleware/authenticate");
 let checkSolution = require("./middleware/checkSolution");
+let checkAccessLevel = require("./middleware/checkAccessLevel");
+let roles = require("./utils/roles");
 let helmet = require("helmet");
-let version = require("./models/Version").get();
+let version = require("./utils/version").get();
 let app = express();
 
 app.use(helmet());
@@ -25,6 +27,7 @@ app.post(`/${version}/api/task/check/`, authenticate, routes.post.task.check);
 app.post(`/${version}/api/task/add/`, authenticate, routes.post.task.add);
 app.post(`/${version}/api/task/submit/`, authenticate, routes.post.task.submit);
 // user
+app.get(`/${version}/api/users/`, [authenticate, checkAccessLevel(roles.admin)], routes.get.user.getAll);
 app.get(`/${version}/api/user/:login/`, routes.get.user.getByLogin);
 app.get(`/${version}/api/user/:login/tasks/solved/`, routes.get.user.tasks.solved);
 app.get(`/${version}/api/user/:login/tasks/added/`, routes.get.user.tasks.added);

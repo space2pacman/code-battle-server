@@ -1,4 +1,4 @@
-let version = require("../models/Version").get();
+let version = require("../utils/version").get();
 let urls = {
 	[`/${version}/api/solution/task/:id/`]: "solution/task",
 	[`/${version}/api/solution/:id/`]: "solution",
