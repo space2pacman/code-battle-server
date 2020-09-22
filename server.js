@@ -23,8 +23,8 @@ app.get(`/${version}/api/tasks/`, routes.get.task.getAll);
 app.get(`/${version}/api/task/:id/`, routes.get.task.getById);
 app.post(`/${version}/api/task/edit/`, authenticate, routes.post.task.edit);
 app.post(`/${version}/api/task/test/`, authenticate, routes.post.task.test);
-app.post(`/${version}/api/task/check/`, authenticate, routes.post.task.check);
-app.post(`/${version}/api/task/add/`, authenticate, routes.post.task.add);
+app.post(`/${version}/api/task/check/`, [authenticate, checkAccessLevel(roles.admin)], routes.post.task.check);
+app.post(`/${version}/api/task/add/`, [authenticate, checkAccessLevel(roles.admin)], routes.post.task.add);
 app.post(`/${version}/api/task/submit/`, authenticate, routes.post.task.submit);
 // user
 app.get(`/${version}/api/users/`, [authenticate, checkAccessLevel(roles.admin)], routes.get.user.getAll);
