@@ -336,7 +336,6 @@ module.exports = {
 					answer.status = "error";
 					answer.error = "wrong old password";
 				} else {
-					console.log(data)
 					users.update(login, data);
 				}
 
