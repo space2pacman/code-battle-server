@@ -308,7 +308,6 @@ module.exports = {
 				let password = request.body.data.password;
 				let user = await users.getByField("login", login)
 				let data = {
-					login,
 					email: {
 						address: request.body.data.email.address,
 						confirmed: user.email.confirmed,
@@ -337,6 +336,7 @@ module.exports = {
 					answer.status = "error";
 					answer.error = "wrong old password";
 				} else {
+					console.log(data)
 					users.update(login, data);
 				}
 
