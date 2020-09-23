@@ -234,7 +234,7 @@ module.exports = {
 
 				answer.data = {
 					platform: os.platform(),
-					directory: process.cwd()
+					directory: process.cwd(),
 					version: {
 						os: os.release(),
 						node: process.version
@@ -245,6 +245,7 @@ module.exports = {
 			app(request, response) {
 				let answer = {
 					status: "success",
+					url: "system/app",
 					data: null,
 					error: null
 				}
