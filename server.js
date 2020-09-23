@@ -45,5 +45,10 @@ app.post(`/${version}/api/registration/`, routes.post.registration);
 app.post(`/${version}/api/upload/`, authenticate, routes.post.upload);
 // version
 app.get("/api/version/", routes.get.version);
+// statistics
+app.get(`/${version}/api/system/ram/`, routes.get.system.ram);
+app.get(`/${version}/api/system/cores/`, routes.get.system.cores);
+app.get(`/${version}/api/system/info/`, routes.get.system.info);
+app.get(`/${version}/api/system/app/`, routes.get.system.app);
 
 app.listen(8080);

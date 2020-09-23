@@ -17,6 +17,7 @@
 /task/submit/[POST]  
 
 ### user
+/users/[GET]
 /user/{login}/[GET, POST]  
 /user/{login}/task/solved/[GET]  
 /user/{login}/task/added/[GET]  
@@ -29,3 +30,12 @@
 
 ### upload
 /upload/[POST]  
+
+### version
+/version/[GET]
+
+### statistics
+/system/ram/[GET]
+/system/cores/[GET]
+/system/info/[GET]
+/system/app/[GET]

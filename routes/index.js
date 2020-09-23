@@ -1,3 +1,4 @@
+let os = require("os");
 let tasks = require("../models/Tasks");
 let solutions = require("../models/Solutions");
 let users = require("../models/Users");
@@ -6,6 +7,11 @@ let test = require("../utils/test");
 let jwt = require("jsonwebtoken");
 let regex = {
 	form: /^[a-zA-Z0-9]+$/
+}
+let multipliers = {
+	"KB": 1024,
+	"MB": 1024 * 1024,
+	"GB": 1024 * 1024 * 1024
 }
 
 module.exports = {
@@ -194,6 +200,61 @@ module.exports = {
 		},
 		version(request, response) {
 			response.send(version.get());
+		},
+		system: {
+			ram(request, response) {
+				let answer = {
+					status: "success",
+					data: null,
+					error: null
+				}
+
+				answer.data = {
+					free: Math.floor(os.freemem() / multipliers["MB"]),
+					total: Math.floor(os.totalmem() / multipliers["MB"])
+				}
+				response.send(answer);
+			},
+			cores(request, response) {
+				let answer = {
+					status: "success",
+					data: null,
+					error: null
+				}
+
+				answer.data = os.cpus();
+				response.send(answer);
+			},
+			info(request, response) {
+				let answer = {
+					status: "success",
+					data: null,
+					error: null
+				}
+
+				answer.data = {
+					platform: os.platform(),
+					directory: process.cwd()
+					version: {
+						os: os.release(),
+						node: process.version
+					}
+				}
+				response.send(answer);
+			},
+			app(request, response) {
+				let answer = {
+					status: "success",
+					data: null,
+					error: null
+				}
+
+				answer.data = {
+					pid: process.pid,
+					memory: Math.floor(process.memoryUsage().external / multipliers["MB"]),
+				}
+				response.send(answer);
+			}
 		}
 	},
 	post: {
