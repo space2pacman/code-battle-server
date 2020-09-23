@@ -215,7 +215,7 @@ module.exports = {
 				}
 				response.send(answer);
 			},
-			cores(request, response) {
+			cpu(request, response) {
 				let answer = {
 					status: "success",
 					data: null,

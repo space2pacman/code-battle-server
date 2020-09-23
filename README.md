@@ -36,6 +36,6 @@
 
 ### statistics
 /system/ram/[GET]
-/system/cores/[GET]
+/system/cpu/[GET]
 /system/info/[GET]
 /system/app/[GET]
