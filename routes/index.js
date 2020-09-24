@@ -245,7 +245,6 @@ module.exports = {
 			app(request, response) {
 				let answer = {
 					status: "success",
-					url: "system/app",
 					data: null,
 					error: null
 				}
