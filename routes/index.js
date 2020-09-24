@@ -221,6 +221,35 @@ module.exports = {
 					data: null,
 					error: null
 				}
+				// let cpu = os.cpus()[0].times;
+				// let user = cpu.user;
+				// let nice = cpu.nice;
+				// let sys = cpu.sys;
+				// let irq = cpu.irq;
+				// let idle = cpu.idle;
+
+				// let start = {
+				// 	idle,
+				// 	total: user + nice + sys + idle + irq
+				// }
+				// let end = {
+				// 	idle: null,
+				// 	total: null
+				// }
+
+				// setTimeout(() => {
+				// 	let cpu = os.cpus()[0].times;
+
+				// 	end.idle = cpu.idle;
+				// 	end.total = cpu.user + cpu.nice + cpu.sys + cpu.idle + cpu.irq;
+
+				// 	let idle = end.idle - start.idle;
+				// 	let total = end.total - start.total;
+				// 	let percentage = idle / total;
+
+				// 	answer.data = percentage;
+				// 	response.send(answer);
+				// }, 1000)
 
 				answer.data = os.cpus();
 				response.send(answer);
@@ -235,6 +264,10 @@ module.exports = {
 				answer.data = {
 					platform: os.platform(),
 					directory: process.cwd(),
+					uptime: {
+						system: os.uptime(),
+						app: process.uptime()
+					},
 					version: {
 						os: os.release(),
 						node: process.version
