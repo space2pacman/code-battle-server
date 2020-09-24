@@ -266,7 +266,7 @@ module.exports = {
 					directory: process.cwd(),
 					uptime: {
 						system: os.uptime(),
-						app: process.uptime()
+						app: Math.floor(process.uptime())
 					},
 					version: {
 						os: os.release(),
