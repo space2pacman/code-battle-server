@@ -1,4 +1,5 @@
 let os = require("os");
+let system = require("systeminformation");
 let tasks = require("../models/Tasks");
 let solutions = require("../models/Solutions");
 let users = require("../models/Users");
@@ -221,38 +222,23 @@ module.exports = {
 					data: null,
 					error: null
 				}
-				// let cpu = os.cpus()[0].times;
-				// let user = cpu.user;
-				// let nice = cpu.nice;
-				// let sys = cpu.sys;
-				// let irq = cpu.irq;
-				// let idle = cpu.idle;
 
-				// let start = {
-				// 	idle,
-				// 	total: user + nice + sys + idle + irq
-				// }
-				// let end = {
-				// 	idle: null,
-				// 	total: null
-				// }
+				system.currentLoad(data => {
+					let cpus = os.cpus();
+					let cpu = data.cpus.map((cpu, index) => {
+						return {
+							load: {
+								total: Math.floor(cpu.load),
+								user: Math.floor(cpu.load_user),
+								system: Math.floor(cpu.load_system),
+							},
+							model: cpus[index].model
+						}
+					});
 
-				// setTimeout(() => {
-				// 	let cpu = os.cpus()[0].times;
-
-				// 	end.idle = cpu.idle;
-				// 	end.total = cpu.user + cpu.nice + cpu.sys + cpu.idle + cpu.irq;
-
-				// 	let idle = end.idle - start.idle;
-				// 	let total = end.total - start.total;
-				// 	let percentage = idle / total;
-
-				// 	answer.data = percentage;
-				// 	response.send(answer);
-				// }, 1000)
-
-				answer.data = os.cpus();
-				response.send(answer);
+					answer.data = cpu;
+					response.send(answer);
+				});
 			},
 			info(request, response) {
 				let answer = {
