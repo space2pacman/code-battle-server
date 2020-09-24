@@ -284,7 +284,10 @@ module.exports = {
 
 				answer.data = {
 					pid: process.pid,
-					memory: Math.floor(process.memoryUsage().external / multipliers["MB"]),
+					memory: {
+						free: Math.floor(os.freemem() / multipliers["MB"]),
+						app: Math.floor(process.memoryUsage().external / multipliers["MB"])
+					}
 				}
 				response.send(answer);
 			}
