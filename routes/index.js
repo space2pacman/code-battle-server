@@ -3,6 +3,7 @@ let system = require("systeminformation");
 let tasks = require("../models/Tasks");
 let solutions = require("../models/Solutions");
 let users = require("../models/Users");
+let database = require("./../utils/database");
 let version = require("../utils/version");
 let test = require("../utils/test");
 let jwt = require("jsonwebtoken");
@@ -240,13 +241,15 @@ module.exports = {
 					response.send(answer);
 				});
 			},
-			info(request, response) {
+			async info(request, response) {
 				let answer = {
 					status: "success",
 					data: null,
 					error: null
 				}
-
+				let db = await database;
+				let serverStatus = await db.admin().serverStatus();
+				
 				answer.data = {
 					platform: os.platform(),
 					directory: process.cwd(),
@@ -256,7 +259,8 @@ module.exports = {
 					},
 					version: {
 						os: os.release(),
-						node: process.version
+						node: process.version,
+						mongodb: serverStatus.version
 					}
 				}
 				response.send(answer);
