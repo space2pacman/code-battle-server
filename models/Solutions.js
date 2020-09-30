@@ -3,7 +3,6 @@ let database = require("./../utils/database");
 class Solutions {
 	constructor() {
 		this._solutions = null;
-		this._lastId = 2;
 		this._init();
 	}
 
@@ -33,7 +32,7 @@ class Solutions {
 	
 	async add(code, username, taskId) {
 		let solution = {
-			id: this._lastId,
+			id: await this._solutions.countDocuments(),
 			task: taskId,
 			username,
 			code,
@@ -41,7 +40,6 @@ class Solutions {
 			comments: 0
 		}
 
-		this._lastId++;
 		await this._solutions.insertOne(solution);
 	}
 

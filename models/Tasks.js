@@ -4,7 +4,6 @@ let solutions = require("../models/Solutions");
 class Tasks {
 	constructor() {
 		this._tasks = null;
-		this._lastId = 3;
 		this._init();
 	}
 
@@ -45,9 +44,8 @@ class Tasks {
 	}
 
 	async add(task) {
-		task.id = this._lastId;
-
-		this._lastId++;
+		task.id = await this._tasks.countDocuments();
+		
 		await this._tasks.insertOne(task);
 	}
 

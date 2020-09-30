@@ -77,6 +77,7 @@ class Users {
 			},
 			level: "junior",
 			points: 0,
+			created: Date.now(),
 			likes: {
 				solutions: []
 			}
