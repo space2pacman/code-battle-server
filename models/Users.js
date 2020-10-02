@@ -68,6 +68,7 @@ class Users {
 				confirmed: false
 			},
 			verified: false,
+			company: false,
 			userpic: "public/images/users/default.png",
 			socialNetworks: [],
 			country: "США",
