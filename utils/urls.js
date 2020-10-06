@@ -1,8 +1,8 @@
-let version = require("../utils/version").get();
+let version = require("../utils/version").api();
 let urls = {
-	[`/${version}/api/solution/task/:id/`]: "solution/task",
-	[`/${version}/api/solution/:id/`]: "solution",
-	[`/${version}/api/task/test/`]: "task/test"
+	[`/api/${version}/solution/task/:id/`]: "solution/task",
+	[`/api/${version}/solution/:id/`]: "solution",
+	[`/api/${version}/task/test/`]: "task/test"
 }
 
 module.exports = urls;

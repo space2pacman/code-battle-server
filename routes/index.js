@@ -201,7 +201,7 @@ module.exports = {
 			}
 		},
 		version(request, response) {
-			response.send(version.get());
+			response.send(version.api());
 		},
 		system: {
 			ram(request, response) {
@@ -260,7 +260,8 @@ module.exports = {
 					version: {
 						os: os.release(),
 						node: process.version,
-						mongodb: serverStatus.version
+						mongodb: serverStatus.version,
+						app: version.app()
 					}
 				}
 				response.send(answer);

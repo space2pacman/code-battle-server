@@ -1,5 +1,8 @@
 module.exports = {
-	get() {
-		return "v1";
+	api() {
+		return "v1"
+	},
+	app() {
+		return "1.0.0";
 	}
 };
