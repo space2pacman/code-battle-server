@@ -17,10 +17,12 @@
 /task/submit/[POST]  
 
 ### user
-/users/[GET]
-/user/{login}/[GET, POST]  
+/users/[GET]  
+/user/{login}/[GET]  
 /user/{login}/task/solved/[GET]  
 /user/{login}/task/added/[GET]  
+/user/{login}/update/settings//[POST]  
+/user/{login}/update/advanced/[POST]  
 
 ### solution
 /solution/{id}/[GET]  
@@ -32,10 +34,10 @@
 /upload/[POST]  
 
 ### version
-/version/[GET]
+/version/[GET]  
 
 ### statistics
-/system/ram/[GET]
-/system/cpu/[GET]
-/system/info/[GET]
-/system/app/[GET]
+/system/ram/[GET]  
+/system/cpu/[GET]  
+/system/info/[GET]  
+/system/app/[GET]  
