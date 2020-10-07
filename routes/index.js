@@ -386,48 +386,73 @@ module.exports = {
 			}
 		},
 		user: {
-			async update(request, response) {
-				let answer = {
-					status: "success",
-					data: null,
-					error: null
-				}
-				let login = request.body.data.login;
-				let password = request.body.data.password;
-				let user = await users.getByField("login", login)
-				let data = {
-					email: {
-						address: request.body.data.email.address,
-						confirmed: user.email.confirmed,
-						notification: request.body.data.email.notification
-					},
-					userpic: request.body.data.userpic,
-					country: request.body.data.country,
-					level: request.body.data.level,
-					socialNetworks: request.body.data.socialNetworks
-				}
-				let fields = {
-					email: await users.getByField("email.address", data.email.address),
-					password: await users.checkPassword(login, password.old)
-				}
+			update: {
+				async settings(request, response) {
+					let answer = {
+						status: "success",
+						data: null,
+						error: null
+					}
+					let login = request.params.login;
+					let password = request.body.data.password;
+					let user = await users.getByField("login", login)
+					let data = {
+						email: {
+							address: request.body.data.email.address,
+							confirmed: user.email.confirmed,
+							notification: request.body.data.email.notification
+						},
+						userpic: request.body.data.userpic,
+						country: request.body.data.country,
+						level: request.body.data.level,
+						socialNetworks: request.body.data.socialNetworks
+					}
+					let fields = {
+						email: await users.getByField("email.address", data.email.address),
+						password: await users.checkPassword(login, password.old)
+					}
 
-				data.socialNetworks = data.socialNetworks.filter(socialNetwork => socialNetwork.link.length > 0);
+					data.socialNetworks = data.socialNetworks.filter(socialNetwork => socialNetwork.link.length > 0);
 
-				if(password.old !== null && password.new !== null) {
-					data.password = password.new;
-				}
+					if(password.old !== null && password.new !== null) {
+						data.password = password.new;
+					}
 
-				if(fields.email && user.email.address !== data.email.address) {
-					answer.status = "error";
-					answer.error = "email already exists"
-				} else if(password.old !== null && password.new !== null && fields.password === "wrong password") {
-					answer.status = "error";
-					answer.error = "wrong old password";
-				} else {
+					if(fields.email && user.email.address !== data.email.address) {
+						answer.status = "error";
+						answer.error = "email already exists"
+					} else if(password.old !== null && password.new !== null && fields.password === "wrong password") {
+						answer.status = "error";
+						answer.error = "wrong old password";
+					} else {
+						users.update(login, data);
+					}
+
+					response.send(answer);
+				},
+				async advanced(request, response) {
+					let answer = {
+						status: "success",
+						data: null,
+						error: null
+					}
+					let login = request.params.login;
+					let user = await users.getByField("login", login)
+					let data = {
+						email: {
+							confirmed: request.body.data.email.confirmed
+						},
+						verified: request.body.data.verified,
+						company: request.body.data.company,
+						points: request.body.data.points,
+						accessLevel: request.body.data.accessLevel
+					}
+
+					// fix check access level
+
 					users.update(login, data);
+					response.send(answer);
 				}
-
-				response.send(answer);
 			}
 		},
 		solution: {
