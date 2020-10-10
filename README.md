@@ -18,7 +18,8 @@
 
 ### user
 /users/[GET]  
-/user/{login}/[GET]  
+/user/{login}/basic/[GET]  
+/user/{login}/advanced/[GET]  
 /user/{login}/task/solved/[GET]  
 /user/{login}/task/added/[GET]  
 /user/{login}/update/settings//[POST]  

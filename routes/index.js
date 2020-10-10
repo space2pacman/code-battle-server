@@ -61,25 +61,54 @@ module.exports = {
 
 				response.send(answer);
 			},
-			async getByLogin(request, response) {
-				let login = request.params.login;
-				let answer = {
-					status: null,
-					url: "user",
-					data: null,
-					error: null
-				}
-				let user = await users.getByField("login", login);
+			getByLogin: {
+				async basic(request, response) {
+					let login = request.params.login;
+					let answer = {
+						status: null,
+						url: "user",
+						data: null,
+						error: null
+					}
+					let user = await users.getByField("login", login);
 
-				if(user) {
-					answer.status = "success";
-					answer.data = user;
-				} else {
-					answer.status = "error";
-					answer.error = "user not found";
-				}
+					if(user) {
+						answer.status = "success";
+						answer.data = {
+							likes: user.likes,
+							login: user.login,
+							points: user.points,
+							tasks: user.tasks,
+							userpic: user.userpic,
+							verified: user.verified,
+						}
+					} else {
+						answer.status = "error";
+						answer.error = "user not found";
+					}
 
-				response.send(answer);
+					response.send(answer);
+				},
+				async advanced(request, response) {
+					let login = request.params.login;
+					let answer = {
+						status: null,
+						url: "user",
+						data: null,
+						error: null
+					}
+					let user = await users.getByField("login", login);
+
+					if(user) {
+						answer.status = "success";
+						answer.data = user;
+					} else {
+						answer.status = "error";
+						answer.error = "user not found";
+					}
+
+					response.send(answer);
+				}
 			},
 			tasks: {
 				async solved(request, response) {
