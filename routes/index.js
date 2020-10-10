@@ -440,6 +440,8 @@ module.exports = {
 					let user = await users.getByField("login", login)
 					let data = {
 						email: {
+							address: request.body.data.email.address,
+							notification: request.body.data.email.notification,
 							confirmed: request.body.data.email.confirmed
 						},
 						verified: request.body.data.verified,
