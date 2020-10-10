@@ -31,8 +31,8 @@ app.get(`/api/${version}/users/`, [authenticate, checkAccessLevel(roles.admin)],
 app.get(`/api/${version}/user/:login/`, routes.get.user.getByLogin);
 app.get(`/api/${version}/user/:login/tasks/solved/`, routes.get.user.tasks.solved);
 app.get(`/api/${version}/user/:login/tasks/added/`, routes.get.user.tasks.added);
-app.post(`/api/${version}/user/:login/update/settings/`, routes.post.user.update.settings);
-app.post(`/api/${version}/user/:login/update/advanced/`, routes.post.user.update.advanced);
+app.post(`/api/${version}/user/:login/update/settings/`, authenticate, routes.post.user.update.settings);
+app.post(`/api/${version}/user/:login/update/advanced/`, authenticate, routes.post.user.update.advanced);
 // solution
 app.get(`/api/${version}/solution/liked/`, authenticate, routes.get.solution.getByLiked);
 app.get(`/api/${version}/solution/:id/`, [authenticate, checkSolution], routes.get.solution.getById);

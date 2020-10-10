@@ -393,7 +393,7 @@ module.exports = {
 						data: null,
 						error: null
 					}
-					let login = request.params.login;
+					let login = response.locals.user.login;
 					let password = request.body.data.password;
 					let user = await users.getByField("login", login)
 					let data = {
@@ -418,7 +418,11 @@ module.exports = {
 						data.password = password.new;
 					}
 
-					if(fields.email && user.email.address !== data.email.address) {
+					if(data.email.address !== user.email.address) {
+						data.email.confirmed = false;
+					}
+
+					if(fields.email && data.email.address !== user.email.address) {
 						answer.status = "error";
 						answer.error = "email already exists"
 					} else if(password.old !== null && password.new !== null && fields.password === "wrong password") {
